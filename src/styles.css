@@ -1,0 +1,37 @@
+/* 폰트 셀프호스팅 (Galmuri, OFL-1.1) */
+@font-face { font-family: 'Galmuri7'; src: url('/assets/fonts/Galmuri7.woff2') format('woff2'); }
+@font-face { font-family: 'Galmuri9'; src: url('/assets/fonts/Galmuri9.woff2') format('woff2'); }
+@font-face { font-family: 'Galmuri11'; src: url('/assets/fonts/Galmuri11.woff2') format('woff2'); }
+@font-face { font-family: 'Galmuri11Bold'; src: url('/assets/fonts/Galmuri11-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Galmuri14'; src: url('/assets/fonts/Galmuri14.woff2') format('woff2'); }
+@font-face { font-family: 'GalmuriMono9'; src: url('/assets/fonts/GalmuriMono9.woff2') format('woff2'); }
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #0e1024;
+  overflow: hidden;
+}
+
+#game {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game canvas {
+  image-rendering: pixelated;
+}
+
+/* DOM 오버레이(단서 수첩 등) 루트 — 위치·배율은 프론트엔드가 캔버스에 맞춘다 */
+#ui-root {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  font-family: 'Galmuri11', sans-serif;
+  -webkit-font-smoothing: none;
+}
