@@ -130,7 +130,8 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   private startBriefing(id: LevelId): void {
-    gameState.store.clearCheckpoint();
+    // 시작하는 레벨의 체크포인트만 지운다
+    if (gameState.checkpoint()?.level === id) gameState.store.clearCheckpoint();
     setSession(null);
     fadeTo(this, 'Briefing', { level: id });
   }

@@ -60,6 +60,8 @@ export interface DialogueContext {
   hasClue(id: ClueId): boolean;
   hasFlag(flag: string): boolean;
   isVisited(nodeId: string): boolean;
+  /** codeInput 노드의 누적 오답 수 (없으면 0으로 본다) */
+  codeWrongCount?(nodeId: string): number;
 }
 
 export interface LevelStats {

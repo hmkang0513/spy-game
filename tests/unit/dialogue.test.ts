@@ -166,6 +166,50 @@ describe('dialogue', () => {
     expect(r.submitCode('0321').nodeId).toBe('safeOpen');
   });
 
+  it('U-DLG-07 오답마다 codeWrong 효과 (v1.1)', () => {
+    const r = new DialogueRunner(makeDialogue(), makeContext());
+    toMenu(r);
+    r.choose(4);
+    r.drainEffects();
+    r.submitCode('9999');
+    expect(r.drainEffects()).toContainEqual({ type: 'codeWrong', node: 'safe' });
+    r.advance();
+    r.submitCode('0321');
+    expect(r.drainEffects()).not.toContainEqual({ type: 'codeWrong', node: 'safe' });
+  });
+
+  it('U-DLG-07 대화를 다시 열어도 3회 제한 유지 (codeWrongCount, v1.1)', () => {
+    const ctx = makeContext();
+    // 1번째 대화: 2회 오답 후 닫음. 세션 역할로 대화가 끝난 뒤 codeWrong 효과를 누적한다
+    const r1 = new DialogueRunner(makeDialogue(), ctx);
+    toMenu(r1);
+    r1.choose(4);
+    for (let i = 0; i < 2; i++) {
+      expect(r1.submitCode('1111').nodeId).toBe('safeWrong');
+      r1.advance();
+    }
+    for (const ef of r1.drainEffects()) {
+      if (ef.type === 'codeWrong') ctx.codeWrong.set(ef.node, (ctx.codeWrong.get(ef.node) ?? 0) + 1);
+    }
+    expect(ctx.codeWrong.get('safe')).toBe(2);
+
+    // 2번째 대화: 1회 더 틀리면 누적 3회 → onMaxWrong
+    const r2 = new DialogueRunner(makeDialogue(), ctx);
+    toMenu(r2);
+    r2.choose(4);
+    expect(r2.submitCode('2222').nodeId).toBe('safeAlarm');
+    expect(r2.drainEffects()).toContainEqual({ type: 'triggerAlarm' });
+  });
+
+  it('U-DLG-07 codeWrongCount 가 없는 컨텍스트는 0 으로 본다', () => {
+    const ctx = makeContext();
+    const { codeWrongCount: _omit, ...noCount } = ctx;
+    const r = new DialogueRunner(makeDialogue(), noCount);
+    toMenu(r);
+    r.choose(4);
+    expect(r.submitCode('1111').nodeId).toBe('safeWrong');
+  });
+
   it('U-DLG-08 validateDialogue: 올바른 대화는 오류 0', () => {
     expect(validateDialogue(makeDialogue(), KNOWN_CLUES)).toEqual([]);
   });

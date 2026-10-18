@@ -38,7 +38,14 @@ export class Stealth {
     return this.alert.state;
   }
 
-  update(dt: number, w: GuardWorld): void {
+  /**
+   * 매 프레임. frozen(검문이 아닌 대화 중)이면 경비는 움직이지만 감지·경보 상태 머신·붙잡힘은 멈춘다 (04 §9)
+   */
+  update(dt: number, w: GuardWorld, frozen = false): void {
+    if (frozen) {
+      for (const g of this.guards) g.update(dt, w);
+      return;
+    }
     let spotted: Guard | null = null;
     let maxGauge = 0;
     let anySees = false;
@@ -118,11 +125,10 @@ export class Stealth {
     if (prev !== this.alert.state) bus.emit('alert:changed', { state: this.alert.state, prev });
   }
 
-  /** 검문 무마 후 주의 상태로 (AC-40). AlertMachine 에 전용 API 가 없어 상태 필드를 직접 바꾼다 */
-  setCaution(): void {
+  /** 검문 무마 후 주의 상태로 (AC-40) */
+  enterCaution(): void {
     const prev = this.alert.state;
-    this.alert.state = 'caution';
-    this.alert.timeInState = 0;
+    this.alert.enterCaution();
     for (const g of this.guards) g.gauge = 0;
     if (prev !== 'caution') bus.emit('alert:changed', { state: 'caution', prev });
   }

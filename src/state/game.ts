@@ -7,7 +7,7 @@ import type { CheckpointData, SaveData, Settings } from '../types';
 function probeStorage(): StorageLike | null {
   try {
     const s = window.localStorage;
-    const probe = '__spy_probe__';
+    const probe = 'spyGame.probe';
     s.setItem(probe, '1');
     s.removeItem(probe);
     return s;

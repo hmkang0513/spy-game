@@ -4,6 +4,8 @@ export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 60_000,
   fullyParallel: false,
+  // 레벨 진행 E2E 는 서로 간섭하지 않게 직렬 실행
+  workers: 1,
   reporter: [['list']],
   use: {
     baseURL: 'http://localhost:5173',

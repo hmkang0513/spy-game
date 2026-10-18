@@ -130,6 +130,14 @@ describe('save', () => {
     expect(s.load().data).toEqual(defaultSave());
   });
 
+  it('U-SAV-04 v1.0 체크포인트(새 필드 없음)도 기본값으로 로드 (v1.1)', () => {
+    const mem = new MemoryStorage();
+    const { checkpointRestarts: _r, codeWrong: _c, ...old } = sampleCheckpoint();
+    mem.setItem(CHECKPOINT_KEY, JSON.stringify(old));
+    const cp = new SaveStore(mem).loadCheckpoint();
+    expect(cp).toEqual({ ...old, checkpointRestarts: 0, codeWrong: {} });
+  });
+
   it('U-SAV-04 손상된 체크포인트 → null (크래시 없음)', () => {
     const mem = new MemoryStorage();
     mem.setItem(CHECKPOINT_KEY, '{oops');

@@ -50,4 +50,13 @@ describe('noise', () => {
     const t = coinTarget(grid, from, center(7, 5), TUNING.coin.maxTiles);
     expect(t.valid).toBe(false);
   });
+
+  it('U-NOI-02 착지 타일이 solid 면 invalid (카운터: solid, 시야 통과) (v1.1)', () => {
+    const rows = openRoom(30, 11).map((r) => r.slice(0, 6) + '=' + r.slice(7));
+    const grid = makeGrid(rows);
+    const from = center(2, 5);
+    expect(coinTarget(grid, from, center(6, 5), TUNING.coin.maxTiles).valid).toBe(false);
+    // 카운터 너머 바닥은 시야가 통하므로 valid
+    expect(coinTarget(grid, from, center(8, 5), TUNING.coin.maxTiles).valid).toBe(true);
+  });
 });

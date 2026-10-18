@@ -88,6 +88,20 @@ export interface ZoneDef {
   label: string;
 }
 
+/** 대화 효과로 표현하지 않는 레벨 진행 규칙 (NFR-07: 엔진 코드에 콘텐츠 id 를 두지 않는다) */
+export interface LevelRules {
+  /** 이 플래그가 켜지면 체크포인트 저장 후 무음 경보 (AC-61) */
+  silentAlarmFlag?: string;
+  /** staff 구역에 처음 들어가면 완료되는 목표 */
+  staffZoneObjective?: string;
+  /** 단서가 생기면 완료되는 목표 { 단서: 목표 } */
+  clueObjectives?: Record<ClueId, string>;
+  /** 경비 blink(하품) 빈틈 표시를 여는 단서 */
+  blinkRevealClue?: ClueId;
+  /** 검문 무마 후 돌려보낼 손님 구역 id (AC-40) */
+  excuseReturnZone?: string;
+}
+
 export interface LevelDef {
   id: LevelId;
   title: string;
@@ -108,4 +122,5 @@ export interface LevelDef {
   checkpoints: CheckpointDef[];
   zones: ZoneDef[];
   dialogues: Dialogue[];
+  rules?: LevelRules;
 }

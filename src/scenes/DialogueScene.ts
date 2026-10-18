@@ -30,6 +30,7 @@ const SPEED: Record<string, number> = { slow: 25, normal: 40, fast: 80, instant:
 export class DialogueScene extends Phaser.Scene {
   private runner!: DialogueRunner;
   private session!: LevelSession;
+  private dialogue!: Dialogue;
   private onEnd?: () => void;
   private guardSpeaker?: string;
   view: DialogueView | null = null;
@@ -60,6 +61,7 @@ export class DialogueScene extends Phaser.Scene {
     this.session = data.session;
     this.onEnd = data.onEnd;
     this.guardSpeaker = data.guardSpeaker;
+    this.dialogue = data.dialogue;
     this.runner = new DialogueRunner(data.dialogue, data.session.dialogueContext());
     this.closing = false;
     this.choiceTexts = [];
@@ -180,6 +182,9 @@ export class DialogueScene extends Phaser.Scene {
     }
     const t = addText(this, BOX_X + 24, y, label, 'body', color);
     if (sel && !c.locked) addMarker(this, t);
+    // 단서로 열린 선택지는 단서 아이콘 (AC-16)
+    const gated = (this.dialogue.nodes[this.view?.nodeId ?? '']?.choices?.[c.index]?.requires?.length ?? 0) > 0;
+    if (gated && !c.locked) addClueIcon(this, t);
     t.setInteractive({ useHandCursor: !c.locked });
     t.setData('choice', i);
     return t;
@@ -334,10 +339,6 @@ export class DialogueScene extends Phaser.Scene {
     this.redraw();
   }
 
-  submitCode(code: string): void {
-    this.show(this.runner.submitCode(code));
-  }
-
   /** 테스트 API 용: 표시 순서가 아니라 원본 인덱스로 선택 */
   chooseIndex(index: number): void {
     const i = this.view?.choices.findIndex((c) => c.index === index) ?? -1;
@@ -383,6 +384,17 @@ export class DialogueScene extends Phaser.Scene {
     this.scene.stop();
     this.onEnd?.();
   }
+}
+
+/** 수첩 카드 모양 아이콘 (선택지 글자 뒤) */
+function addClueIcon(scene: Phaser.Scene, t: Phaser.GameObjects.Text): void {
+  const x = Math.round(t.x + t.width + 6);
+  const y = t.y + 3;
+  const g = scene.add.graphics();
+  g.fillStyle(C.paper, 1).fillRect(x, y, 8, 10);
+  g.fillStyle(C.accent, 1).fillRect(x + 1, y + 2, 6, 1).fillRect(x + 1, y + 5, 6, 1);
+  g.lineStyle(1, C.accent2, 1).strokeRect(x - 0.5, y - 0.5, 9, 11);
+  t.once(Phaser.GameObjects.Events.DESTROY, () => g.destroy());
 }
 
 /** 선택된 선택지 앞 > */

@@ -19,7 +19,9 @@ export type Effect =
   /** 금고 3회 오답 등 */
   | { type: 'triggerAlarm' }
   /** L1 접선 성공 등 */
-  | { type: 'endLevel' };
+  | { type: 'endLevel' }
+  /** codeInput 오답 1회 — 세션이 누적해 대화를 다시 열어도 유지한다 (DialogueRunner 가 발생시킴) */
+  | { type: 'codeWrong'; node: string };
 
 export interface Choice {
   text: string;

@@ -239,6 +239,11 @@ const level3: LevelDef = {
     // CP3-4 칩 획득 직전·직후 (금고실 안)
     { id: 'CP3-4', area: { tx: 24, ty: 1, w: 8, h: 6 }, spawn: { tx: 27, ty: 4 } },
   ],
+  rules: {
+    silentAlarmFlag: 'chip_taken',
+    clueObjectives: { 'C3-02': 'l3_deduce' },
+    blinkRevealClue: 'C3-05',
+  },
   zones: [],
   dialogues: [
     // ── 브리핑 ──

@@ -1,4 +1,4 @@
-// E2E 테스트 API window.__spy (04 §7) — 개발 서버이거나 URL 에 ?test=1 이 있을 때만 노출
+// E2E 테스트 API window.__spy (04 §7, v1.1) — 개발 서버(import.meta.env.DEV)에서만 노출. 프로덕션 빌드에서는 코드째 빠진다
 import type Phaser from 'phaser';
 import type { AlertState, ClueId, DialogueView, LevelId, SaveData } from '../types';
 import type { LevelScene } from '../scenes/LevelScene';
@@ -27,8 +27,7 @@ export interface SpyTestApi {
 }
 
 export function installTestApi(game: Phaser.Game): void {
-  const enabled = import.meta.env.DEV || new URLSearchParams(window.location.search).has('test');
-  if (!enabled) return;
+  if (!import.meta.env.DEV) return;
   const sm = game.scene;
   const level = (): LevelScene | null => (sm.isActive('Level') || sm.isPaused('Level') ? (sm.getScene('Level') as LevelScene) : null);
   const dlg = (): DialogueScene | null => (sm.isActive('Dialogue') ? (sm.getScene('Dialogue') as DialogueScene) : null);

@@ -220,4 +220,43 @@ describe('data.levels', () => {
     expect(levelOf).toEqual({ move: 1, talk: 1, crouch: 2, hide: 2, lockpick: 3, coin: 3 });
   });
 
+
+  describe.each(IDS)('레벨 %i rules 참조 (v1.1)', (id) => {
+    it('rules 의 목표·단서·구역·플래그 참조가 모두 존재', () => {
+      const level = getLevel(id);
+      const r = level.rules ?? {};
+      const objectives = new Set(level.objectives.map((o) => o.id));
+      const known = knownClues(id);
+      const bad: string[] = [];
+      if (r.staffZoneObjective && !objectives.has(r.staffZoneObjective)) bad.push(`staffZoneObjective ${r.staffZoneObjective}`);
+      for (const [clue, obj] of Object.entries(r.clueObjectives ?? {})) {
+        if (!known.has(clue)) bad.push(`clueObjectives 단서 ${clue}`);
+        if (!objectives.has(obj)) bad.push(`clueObjectives 목표 ${obj}`);
+      }
+      if (r.blinkRevealClue && !known.has(r.blinkRevealClue)) bad.push(`blinkRevealClue ${r.blinkRevealClue}`);
+      if (r.excuseReturnZone && !level.zones.some((z) => z.id === r.excuseReturnZone && z.kind === 'guest'))
+        bad.push(`excuseReturnZone ${r.excuseReturnZone}`);
+      if (r.silentAlarmFlag) {
+        const setters = level.dialogues.flatMap((d) =>
+          Object.values(d.nodes).flatMap((n) => [...(n.effects ?? []), ...(n.choices ?? []).flatMap((c) => c.effects ?? [])]),
+        );
+        if (!setters.some((e) => e.type === 'setFlag' && e.flag === r.silentAlarmFlag)) bad.push(`silentAlarmFlag ${r.silentAlarmFlag} 를 켜는 효과 없음`);
+      }
+      expect(bad).toEqual([]);
+    });
+  });
+
+  it('L2 rules.excuseReturnZone 은 손님 구역 (AC-40)', () => {
+    const l2 = getLevel(2);
+    expect(l2.rules?.excuseReturnZone).toBeDefined();
+    const z = l2.zones.find((x) => x.id === l2.rules!.excuseReturnZone);
+    expect(z?.kind).toBe('guest');
+  });
+
+  it('L3 rules: silentAlarmFlag·clueObjectives·blinkRevealClue(C3-05) 존재 (AC-61, 05 C3-05)', () => {
+    const r = getLevel(3).rules;
+    expect(r?.silentAlarmFlag).toBeTruthy();
+    expect(Object.keys(r?.clueObjectives ?? {}).length).toBeGreaterThan(0);
+    expect(r?.blinkRevealClue).toBe('C3-05');
+  });
 });

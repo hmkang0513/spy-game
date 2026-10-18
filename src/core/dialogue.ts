@@ -31,6 +31,8 @@ export class DialogueRunner {
   private visited: string[] = [];
   /** codeInput 노드별 오답 횟수 (이 대화 안에서만) */
   private wrongCounts = new Map<string, number>();
+  /** codeInput 노드별 이전 대화까지의 누적 오답 (처음 읽은 값으로 고정) */
+  private wrongBase = new Map<string, number>();
 
   constructor(
     private readonly dialogue: Dialogue,
@@ -45,6 +47,7 @@ export class DialogueRunner {
     this.effects = [];
     this.visited = [];
     this.wrongCounts.clear();
+    this.wrongBase.clear();
     return this.enter(entry.node);
   }
 
@@ -85,17 +88,15 @@ export class DialogueRunner {
     const node = this.node;
     const req = node?.codeInput;
     if (!node || !req || this.mode() !== 'code') return this.view();
-    if (code.trim() === req.answer.trim()) {
-      this.wrongCounts.delete(node.id);
-      return this.enter(req.success);
-    }
-    const wrong = (this.wrongCounts.get(node.id) ?? 0) + 1;
-    if (wrong >= req.maxWrong) {
-      this.wrongCounts.delete(node.id);
-      return this.enter(req.onMaxWrong);
-    }
-    this.wrongCounts.set(node.id, wrong);
-    return this.enter(req.wrong);
+    if (code.trim() === req.answer.trim()) return this.enter(req.success);
+    // 오답 횟수 = 대화 시작 시점의 누적(ctx) + 이번 대화 (대화를 다시 열어도 한도 유지).
+    // 세션은 codeWrong 효과를 대화 도중에 바로 누적하므로, ctx 값은 처음 한 번만 읽어 고정한다.
+    if (!this.wrongBase.has(node.id)) this.wrongBase.set(node.id, this.ctx.codeWrongCount?.(node.id) ?? 0);
+    const local = (this.wrongCounts.get(node.id) ?? 0) + 1;
+    this.wrongCounts.set(node.id, local);
+    this.effects.push({ type: 'codeWrong', node: node.id });
+    const total = (this.wrongBase.get(node.id) ?? 0) + local;
+    return this.enter(total >= req.maxWrong ? req.onMaxWrong : req.wrong);
   }
 
   /** 누적된 효과(선택지 → 노드 진입 순)를 꺼내고 비운다. */

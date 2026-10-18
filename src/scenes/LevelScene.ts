@@ -2,7 +2,7 @@
 import Phaser from 'phaser';
 import { TILE, TUNING } from '../config';
 import { applyLevelClear, computeGrade, worldToTile } from '../core';
-import type { CheckpointData, InteractableDef, LevelDef, LevelId, TileRect, Vec2, ZoneDef } from '../types';
+import type { CheckpointData, InteractableDef, LevelDef, LevelId, LevelRules, TileRect, ZoneDef } from '../types';
 import { ActionKeys } from '../input/bindings';
 import { Player } from '../entities/Player';
 import { Npc } from '../entities/Npc';
@@ -13,7 +13,6 @@ import { LevelWorld } from './level/world';
 import { Stealth } from './level/stealth';
 import { CoinAim } from './level/coinAim';
 import { excuseDialogue, EXCUSE_DIALOGUE_ID } from './level/excuse';
-import { RULES } from './level/rules';
 import { abilitiesFor, findDialogue, getLevel } from '../state/content';
 import { gameState } from '../state/game';
 import { LevelSession, currentSession, setSession, type SignalEffect } from '../state/session';
@@ -25,9 +24,10 @@ import type { DialogueLaunch } from './DialogueScene';
 
 export interface LevelLaunch {
   level: LevelId;
-  /** 체크포인트에서 시작 (붙잡힘·이어하기) */
+  /** 체크포인트에서 시작 (붙잡힘·재시작·이어하기) */
   fromCheckpoint?: boolean;
-  restarts?: number;
+  /** 같은 판에서 체크포인트로 복귀 (붙잡힘·일시정지 재시작) — 경보 횟수·시간 유지, 복귀 +1 */
+  returning?: boolean;
 }
 
 export type Phase = 'investigate' | 'infiltrate' | 'ending';
@@ -56,6 +56,9 @@ export class LevelScene extends Phaser.Scene {
   private excuseAccepted = false;
   private caught = false;
   private done = false;
+  /** 대화 중 걸린 경보 — 대화가 닫힌 직후 적용 (04 §9, AC-13) */
+  private pendingAlarm = false;
+  private resumed = false;
 
   constructor() {
     super('Level');
@@ -70,15 +73,21 @@ export class LevelScene extends Phaser.Scene {
       cp = stored?.level === data.level ? stored : startSnapshot?.level === data.level ? startSnapshot : null;
     }
     const existing = currentSession();
-    if (cp) this.session = new LevelSession(this.level, save.carriedClues, cp);
-    else if (existing && existing.level.id === data.level && existing.elapsedSec === 0) this.session = existing;
+    const prev = existing?.level.id === data.level ? existing : null;
+    if (cp) {
+      this.session = new LevelSession(this.level, save.carriedClues, cp);
+      if (data.returning && prev) this.session.carryFrom(prev);
+    } else if (prev && prev.elapsedSec === 0) this.session = prev;
     else this.session = new LevelSession(this.level, save.carriedClues);
-    this.session.checkpointRestarts = data.restarts ?? 0;
     setSession(this.session);
     if (!cp) startSnapshot = this.session.toCheckpoint('start');
+    this.resumed = Boolean(cp && this.session.checkpointId);
     this.npcs = [];
     this.items = [];
-    this.reachedCheckpoints = new Set(this.session.checkpointId ? [this.session.checkpointId] : []);
+    // 복원한 체크포인트와 그 앞의 체크포인트는 이미 지난 것으로 본다 (LevelDef 순서)
+    const order = this.level.checkpoints.findIndex((c) => c.id === this.session.checkpointId);
+    this.reachedCheckpoints = new Set(this.level.checkpoints.slice(0, order + 1).map((c) => c.id));
+    this.pendingAlarm = false;
     this.zoneId = null;
     this.overlay = 'none';
     this.excuseGuard = null;
@@ -127,26 +136,32 @@ export class LevelScene extends Phaser.Scene {
     s.onSignal = (e) => this.onSignal(e);
     s.onFlag = (f) => {
       // 같은 대화의 나머지 효과(칩 단서 등)가 적용된 뒤 저장하도록 한 틱 미룬다
-      if (f === RULES.silentAlarmFlag) this.time.delayedCall(0, () => this.onChipTaken());
+      if (f === this.rules.silentAlarmFlag) this.time.delayedCall(0, () => this.onChipTaken());
     };
     this.subs.on('clue:added', ({ clue }) => {
       this.refreshItems();
-      const obj = RULES.clueObjectives[clue.id];
+      const obj = this.rules.clueObjectives?.[clue.id];
       if (obj) s.completeObjective(obj);
     });
     this.subs.on('objective:changed', () => this.updatePhase());
 
     // 물리 갱신 뒤 스프라이트를 충돌 박스에 맞춘다
-    this.events.on(Phaser.Scenes.Events.POST_UPDATE, () => this.player.syncSprite());
+    const sync = (): void => this.player.syncSprite();
+    this.events.on(Phaser.Scenes.Events.POST_UPDATE, sync);
     this.scene.launch('HUD', { level: this.level.id });
     this.updatePhase();
-    if (this.session.checkpointId && this.session.checkpointRestarts > 0) bus.emit('toast', { kind: 'info', text: '체크포인트에서 재개' });
+    // 붙잡힘·재시작·이어하기 모두 알린다 (HUD 가 준비된 다음 틱)
+    if (this.resumed) this.time.delayedCall(0, () => bus.emit('toast', { kind: 'info', text: '체크포인트에서 재개' }));
 
     // 일시정지에서 돌아오면 그 사이 눌린 키를 지운다
-    this.events.on(Phaser.Scenes.Events.RESUME, () => this.keys.reset());
+    const onResume = (): void => this.keys.reset();
+    this.events.on(Phaser.Scenes.Events.RESUME, onResume);
     const onBlur = (): void => this.openPause();
     window.addEventListener('blur', onBlur);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.events.off(Phaser.Scenes.Events.POST_UPDATE, sync);
+      this.events.off(Phaser.Scenes.Events.RESUME, onResume);
+      this.coinAim.destroy();
       window.removeEventListener('blur', onBlur);
       this.subs.clear();
       this.session.onSignal = null;
@@ -186,6 +201,15 @@ export class LevelScene extends Phaser.Scene {
     if (!this.level.guardsActive) this.stealth.setVisible(this.phase === 'ending');
   }
 
+  get rules(): LevelRules {
+    return this.level.rules ?? {};
+  }
+
+  /** 검문이 아닌 대화 중 — 경비는 움직이되 게이지·경보 상태 머신은 멈춘다 (04 §9, AC-13) */
+  private get frozenByDialogue(): boolean {
+    return this.overlay === 'dialogue' && this.excuseGuard === null;
+  }
+
   can(ability: 'crouch' | 'hide' | 'lockpick' | 'coin'): boolean {
     return abilitiesFor(this.level.id).some((a) => a.id === ability);
   }
@@ -196,9 +220,10 @@ export class LevelScene extends Phaser.Scene {
       grid: this.world.grid,
       alert: this.stealth.state,
       player: { feet: p.feet, crouched: p.crouched, hidden: p.hidden },
-      detect: this.level.guardsActive && this.overlay !== 'dialogue' && !this.caught,
+      // 검문 대화 중에는 감지하지 않는다
+      detect: this.level.guardsActive && this.excuseGuard === null && !this.caught,
       highContrast: gameState.settings.highContrast,
-      showBlink: this.session.hasClue(RULES.blinkRevealClue),
+      showBlink: this.rules.blinkRevealClue !== undefined && this.session.hasClue(this.rules.blinkRevealClue),
     };
   }
 
@@ -214,7 +239,7 @@ export class LevelScene extends Phaser.Scene {
     this.player.update(inputOk ? this.keys : null, this.can('crouch'), dt);
     this.coinAim.update(inputOk && this.keys.down('coinAim'), this.can('coin') && s.coins > 0 && this.player.hide === 'none');
 
-    if (this.level.guardsActive || this.phase === 'ending') this.stealth.update(dt, this.guardWorld());
+    if (this.level.guardsActive || this.phase === 'ending') this.stealth.update(dt, this.guardWorld(), this.frozenByDialogue);
     s.alertCount = this.stealth.alert.alertCount;
     for (const it of this.items) it.update(dt);
     this.talkingTo?.faceToward(this.player.feet);
@@ -345,6 +370,7 @@ export class LevelScene extends Phaser.Scene {
         this.talkingTo = null;
         this.keys.reset();
         onEnd?.();
+        this.flushAlarm();
       },
     };
     this.scene.launch('Dialogue', data);
@@ -370,7 +396,7 @@ export class LevelScene extends Phaser.Scene {
   }
 
   openNotebook(): void {
-    if (this.overlay !== 'none') return;
+    if (this.overlay !== 'none' || this.caught || this.done || this.scene.isPaused() || this.scene.isActive('Pause')) return;
     this.overlay = 'notebook';
     this.player.stop();
     this.scene.pause();
@@ -406,7 +432,7 @@ export class LevelScene extends Phaser.Scene {
       if (zone?.kind === 'staff') {
         // 직원 전용 구역 진입 알림 (AC-41)
         bus.emit('toast', { kind: 'warn', text: `직원 전용 구역 — ${zone.label}` });
-        this.session.completeObjective(RULES.staffZoneObjective);
+        if (this.rules.staffZoneObjective) this.session.completeObjective(this.rules.staffZoneObjective);
       } else if (zone) bus.emit('toast', { kind: 'info', text: zone.label });
     }
   }
@@ -442,14 +468,14 @@ export class LevelScene extends Phaser.Scene {
     guard.hold(false, this.world.grid);
     if (this.excuseAccepted) {
       this.player.setFeet(tileToFeet(this.world.nearestWalkable(this.excuseReturnTile())));
-      this.stealth.setCaution();
-    } else this.stealth.forceAlert(this.player.feet);
+      this.stealth.enterCaution();
+    } else this.pendingAlarm = true;
   }
 
-  /** 돌려보낼 위치: '연회장' 손님 구역 중심(없으면 가장 큰 손님 구역) */
+  /** 돌려보낼 위치: rules.excuseReturnZone 구역 중심(없으면 가장 큰 손님 구역) */
   private excuseReturnTile(): { tx: number; ty: number } {
     const guests = this.level.zones.filter((z) => z.kind === 'guest');
-    const hall = guests.find((z) => z.label.includes('연회장')) ?? [...guests].sort((a, b) => b.area.w * b.area.h - a.area.w * a.area.h)[0];
+    const hall = guests.find((z) => z.id === this.rules.excuseReturnZone) ?? [...guests].sort((a, b) => b.area.w * b.area.h - a.area.w * a.area.h)[0];
     if (!hall) return this.level.player.spawn;
     return { tx: hall.area.tx + Math.floor(hall.area.w / 2), ty: hall.area.ty + Math.floor(hall.area.h / 2) };
   }
@@ -457,7 +483,7 @@ export class LevelScene extends Phaser.Scene {
   // ── 신호 효과 ──
   private onSignal(e: SignalEffect): void {
     if (e.type === 'endLevel') this.time.delayedCall(50, () => this.completeLevel());
-    else if (e.type === 'triggerAlarm') this.stealth.forceAlert(this.player.feet);
+    else if (e.type === 'triggerAlarm') this.raiseAlarm();
     else if (e.type === 'excuseAccepted') this.excuseAccepted = true;
   }
 
@@ -469,8 +495,20 @@ export class LevelScene extends Phaser.Scene {
       this.reachedCheckpoints.add(nearest.id);
       this.saveCheckpoint(nearest.id);
     }
-    this.stealth.forceAlert(feet);
-    bus.emit('toast', { kind: 'warn', text: '무음 경보가 울렸다!' });
+    this.raiseAlarm();
+  }
+
+  /** 경보 — 대화 중이면 대화가 닫힌 직후로 미룬다 */
+  private raiseAlarm(): void {
+    this.pendingAlarm = true;
+    if (this.overlay !== 'dialogue') this.flushAlarm();
+  }
+
+  private flushAlarm(): void {
+    if (!this.pendingAlarm || this.caught || this.done) return;
+    this.pendingAlarm = false;
+    this.stealth.forceAlert(this.player.feet);
+    bus.emit('toast', { kind: 'warn', text: '경보가 울렸다!' });
   }
 
   // ── 붙잡힘 → 체크포인트 (AC-36, 52, 03 §6) ──
@@ -487,7 +525,7 @@ export class LevelScene extends Phaser.Scene {
   }
 
   restartFromCheckpoint(): void {
-    const launch: LevelLaunch = { level: this.level.id, fromCheckpoint: true, restarts: this.session.checkpointRestarts + 1 };
+    const launch: LevelLaunch = { level: this.level.id, fromCheckpoint: true, returning: true };
     this.scene.restart(launch);
   }
 
@@ -502,7 +540,7 @@ export class LevelScene extends Phaser.Scene {
     const prevBest = gameState.data.bestGrade[this.level.id];
     const { data, newBest } = applyLevelClear(gameState.data, this.level.id, grade, s.carryOverClues());
     gameState.save(data);
-    gameState.store.clearCheckpoint();
+    if (gameState.checkpoint()?.level === this.level.id) gameState.store.clearCheckpoint();
     startSnapshot = null;
     setSession(null);
     bus.emit('level:complete', { stats });
@@ -513,10 +551,6 @@ export class LevelScene extends Phaser.Scene {
   teleport(tx: number, ty: number): void {
     this.player.resetHide();
     this.player.setFeet(tileToFeet({ tx, ty }));
-  }
-
-  playerPos(): Vec2 {
-    return this.player.feet;
   }
 }
 

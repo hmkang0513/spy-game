@@ -16,7 +16,7 @@ export function guardsInRadius<T extends { id: string; pos: Vec2 }>(
 
 /**
  * 동전 착지 지점. aim 까지의 거리를 maxTiles 로 자른다.
- * from → 착지점 LOS 가 막히거나 착지 타일이 opaque(벽 등)이면 valid=false.
+ * from → 착지점 LOS 가 막히거나 착지 타일이 solid·opaque(벽·가구·닫힌 문 등)이면 valid=false.
  */
 export function coinTarget(grid: Grid, from: Vec2, aim: Vec2, maxTiles: number): { point: Vec2; valid: boolean } {
   const dx = aim.x - from.x;
@@ -26,6 +26,6 @@ export function coinTarget(grid: Grid, from: Vec2, aim: Vec2, maxTiles: number):
   const k = dist > max ? max / dist : 1;
   const point = { x: from.x + dx * k, y: from.y + dy * k };
   const t = worldToTile(point);
-  const valid = hasLineOfSight(grid, from, point) && !grid.isOpaque(t.tx, t.ty);
+  const valid = hasLineOfSight(grid, from, point) && !grid.isSolid(t.tx, t.ty) && !grid.isOpaque(t.tx, t.ty);
   return { point, valid };
 }

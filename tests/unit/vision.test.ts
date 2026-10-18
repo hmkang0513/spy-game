@@ -117,4 +117,19 @@ describe('grid 계약 (gridFromMap)', () => {
     const g2 = gridFromMap(makeMap(['####', '#.=#', '####']));
     expect(g2.isSolid(1, 1)).toBe(false);
   });
+
+  it('v1.1 닫힌 잠긴 문(extraSolid)은 solid & opaque → 시야 차단', () => {
+    // 가운데 x=4 가 문(D, 통과·투과 가능)인 복도
+    const rows = ['##########', '#...D....#', '##########'];
+    const a = center(1, 1);
+    const b = center(7, 1);
+    const open = gridFromMap(makeMap(rows));
+    expect(open.isOpaque(4, 1)).toBe(false);
+    expect(hasLineOfSight(open, a, b)).toBe(true);
+    const locked = gridFromMap(makeMap(rows), [{ tx: 4, ty: 1 }]);
+    expect(locked.isSolid(4, 1)).toBe(true);
+    expect(locked.isOpaque(4, 1)).toBe(true);
+    expect(hasLineOfSight(locked, a, b)).toBe(false);
+    expect(classifyTarget(locked, a, 0, P, b)).toBe('none');
+  });
 });

@@ -73,6 +73,8 @@ export function makeMap(rows: string[]): MapDef {
 
 /** 대화 문맥 — 단서·플래그·방문 노드를 바깥에서 조작할 수 있는 가짜 */
 export interface FakeContext extends DialogueContext {
+  /** codeInput 노드별 누적 오답 (세션 역할) */
+  codeWrong: Map<string, number>;
   clues: Set<string>;
   flags: Set<string>;
   visited: Set<string>;
@@ -81,13 +83,16 @@ export function makeContext(init: { clues?: string[]; flags?: string[]; visited?
   const clues = new Set(init.clues ?? []);
   const flags = new Set(init.flags ?? []);
   const visited = new Set(init.visited ?? []);
+  const codeWrong = new Map<string, number>();
   return {
+    codeWrong,
     clues,
     flags,
     visited,
     hasClue: (id) => clues.has(id),
     hasFlag: (f) => flags.has(f),
     isVisited: (n) => visited.has(n),
+    codeWrongCount: (n) => codeWrong.get(n) ?? 0,
   };
 }
 
@@ -209,5 +214,7 @@ export function sampleCheckpoint(): CheckpointData {
     alertCount: 1,
     elapsedSec: 123.5,
     openedDoors: [],
+    checkpointRestarts: 2,
+    codeWrong: { safe: 1 },
   };
 }

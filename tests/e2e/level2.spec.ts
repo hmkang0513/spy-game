@@ -23,7 +23,7 @@ import {
   teleport,
   useExit,
 } from './helpers';
-import { isPassable } from '../shared/levelMap';
+import { inRect, isPassable } from '../shared/levelMap';
 
 test.describe.configure({ timeout: 120_000 });
 
@@ -147,4 +147,30 @@ test('E-10 Esc 일시정지 중 경보 타이머 정지', async ({ page }) => {
   await page.keyboard.press('Escape');
   const resumed = await recordAlert(page, 10_000, 'search');
   expect(resumed.map((r) => r.state)).toContain('search');
+});
+
+test('E-08b 체크포인트 복귀는 경보 횟수를 되돌리지 않는다 (v1.1 H1, AC-52)', async ({ page }) => {
+  // 경보 횟수는 state() 에 없으므로, 복귀 후 다른 체크포인트가 저장하는 CheckpointData.alertCount 로 관찰한다
+  const L = levelData(2);
+  const spots = staffGuardSpots(2);
+  const touches = (cp: (typeof L.checkpoints)[number]) => spots.some((t) => inRect(cp.area, t));
+  const free = L.checkpoints.filter((cp) => !touches(cp));
+  expect(free.length, '경비 유인 타일과 겹치지 않는 체크포인트 2개 필요').toBeGreaterThanOrEqual(2);
+  const [a, b] = [free[0]!, free[1]!];
+  const readCp = async () => JSON.parse((await readStorage(page, CHECKPOINT_KEY)) ?? 'null');
+
+  await teleport(page, a.spawn);
+  await expect.poll(async () => (await readCp())?.checkpointId ?? null, { timeout: 5_000 }).toBe(a.id);
+  expect((await readCp()).alertCount).toBe(0);
+
+  const seen = await provokeGuards(page, spots, { stopOn: ['alert'] });
+  expect(seen).toContain('alert');
+  const rec = await recordAlert(page, 20_000, 'calm');
+  expect(rec.map((r) => r.state), '붙잡힘 → 체크포인트 복귀').toContain('calm');
+
+  await teleport(page, b.spawn);
+  await expect.poll(async () => (await readCp())?.checkpointId ?? null, { timeout: 5_000 }).toBe(b.id);
+  const cp = await readCp();
+  expect(cp.alertCount, '복귀 후에도 경보 횟수 유지').toBeGreaterThanOrEqual(1);
+  expect(cp.checkpointRestarts, '복귀 횟수 +1').toBeGreaterThanOrEqual(1);
 });

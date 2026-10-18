@@ -111,11 +111,19 @@ export class Guard {
     return classifyTarget(w.grid, this.pos, this.facingRad, this.coneParams(w.alert), target) === 'near';
   }
 
+  /** 모드가 바뀌면 둘러보기 기준 각도를 새로 잡는다 */
+  private setMode(m: GuardMode): void {
+    if (m === this.mode) return;
+    this.mode = m;
+    this.lookBase = null;
+  }
+
   // ── 행동 명령 ──
   /** 소음·의심 위치 조사 (AC-29, 44, 48) */
   investigate(point: Vec2, grid: Grid, lookSec: number = TUNING.coin.investigateSec): void {
     if (this.mode === 'chase' || this.mode === 'hold') return;
-    this.mode = 'investigate';
+    this.setMode('investigate');
+    this.lookBase = null;
     this.lookTimer = lookSec;
     this.targetAngle = Math.atan2(point.y - this.pos.y, point.x - this.pos.x);
     this.pathTo(point, grid);
@@ -123,7 +131,7 @@ export class Guard {
 
   /** 경보: 마지막 목격 위치로 추적 (AC-34) */
   chase(goal: Vec2, grid: Grid): void {
-    this.mode = 'chase';
+    this.setMode('chase');
     if (!this.chaseGoal || dist(goal, this.chaseGoal) > TILE) {
       this.chaseGoal = goal;
       this.pathTo(goal, grid);
@@ -132,7 +140,7 @@ export class Guard {
 
   /** 수색: 목격 위치 주변 무작위 지점 순회 (AC-34) */
   search(center: Vec2, grid: Grid): void {
-    this.mode = 'search';
+    this.setMode('search');
     this.chaseGoal = null;
     this.searchPoints = pickSearchPoints(center, grid);
     this.nextSearchPoint(grid);
@@ -141,7 +149,7 @@ export class Guard {
   /** 원래 위치·경로로 복귀 */
   returnToRoute(grid: Grid): void {
     if (this.mode === 'route') return;
-    this.mode = 'return';
+    this.setMode('return');
     this.chaseGoal = null;
     this.pathTo(this.routeAnchor(), grid);
   }
@@ -149,24 +157,12 @@ export class Guard {
   /** 검문 대화 중 정지 */
   hold(on: boolean, grid: Grid): void {
     if (on) {
-      this.mode = 'hold';
+      this.setMode('hold');
       this.path = [];
     } else if (this.mode === 'hold') {
-      this.mode = 'investigate';
+      this.setMode('investigate');
       this.returnToRoute(grid);
     }
-  }
-
-  /** 체크포인트 복귀: 처음 위치로 */
-  resetToStart(): void {
-    this.pos = tileToFeet(this.def.pos);
-    this.facingRad = this.targetAngle = Phaser.Math.DegToRad(this.def.facingDeg);
-    this.mode = 'route';
-    this.path = [];
-    this.gauge = 0;
-    this.waypointIdx = 0;
-    this.rotateIdx = 0;
-    this.waitTimer = 0;
   }
 
   // ── 매 프레임 이동 ──
@@ -211,7 +207,7 @@ export class Guard {
         this.lookAround(dt);
         break;
       case 'return':
-        this.mode = 'route';
+        this.setMode('route');
         this.waitTimer = 0;
         break;
       case 'hold':
@@ -273,6 +269,7 @@ export class Guard {
       this.returnToRoute(grid);
       return;
     }
+    this.lookBase = null;
     this.lookTimer = LOOK_AROUND_SEC;
     this.pathTo(p, grid);
   }

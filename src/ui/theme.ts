@@ -32,10 +32,6 @@ export type FontToken = 'title' | 'body' | 'bold' | 'small' | 'tag' | 'mono';
 const SIZE: Record<FontToken, number> = { title: 14, body: 11, bold: 11, small: 9, tag: 7, mono: 9 };
 const LINE: Record<FontToken, number> = { title: 20, body: 16, bold: 16, small: 12, tag: 10, mono: 12 };
 
-export function lineHeight(token: FontToken): number {
-  return LINE[token];
-}
-
 /** Galmuri 설계 크기 그대로의 텍스트 스타일 */
 export function textStyle(token: FontToken, color: string = COLORS.text, extra: Phaser.Types.GameObjects.Text.TextStyle = {}): Phaser.Types.GameObjects.Text.TextStyle {
   return {

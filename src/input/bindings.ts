@@ -51,8 +51,15 @@ export class ActionKeys {
   private readonly keys = new Map<Action, Phaser.Input.Keyboard.Key[]>();
   private readonly codes = new Map<Action, number[]>();
   private readonly downs = new Set<number>();
+  private readonly onKeyDown = (e: KeyboardEvent): void => {
+    this.downs.add(e.keyCode);
+  };
+  private readonly onPostUpdate = (): void => this.downs.clear();
 
-  constructor(scene: Phaser.Scene, actions: Action[]) {
+  constructor(
+    private readonly scene: Phaser.Scene,
+    actions: Action[],
+  ) {
     const kb = scene.input.keyboard;
     if (!kb) return;
     for (const action of actions) {
@@ -60,11 +67,18 @@ export class ActionKeys {
       this.codes.set(action, codes);
       this.keys.set(action, codes.map((c) => kb.addKey(c)));
     }
-    kb.on('keydown', (e: KeyboardEvent) => this.downs.add(e.keyCode));
+    kb.on('keydown', this.onKeyDown);
     // 프레임이 끝나면 이번 프레임 기록을 비운다
-    scene.events.on(Phaser.Scenes.Events.POST_UPDATE, () => {
-      this.downs.clear();
-    });
+    scene.events.on(Phaser.Scenes.Events.POST_UPDATE, this.onPostUpdate);
+    // 씬이 끝나면 리스너를 떼어 재시작·재실행 때 쌓이지 않게 한다
+    scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.destroy());
+  }
+
+  destroy(): void {
+    this.scene.input.keyboard?.off('keydown', this.onKeyDown);
+    this.scene.events.off(Phaser.Scenes.Events.POST_UPDATE, this.onPostUpdate);
+    for (const list of this.keys.values()) for (const k of list) this.scene.input.keyboard?.removeKey(k);
+    this.keys.clear();
   }
 
   /** 누르고 있는 중 */

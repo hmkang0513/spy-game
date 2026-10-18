@@ -33,4 +33,8 @@ export interface CheckpointData {
   alertCount: number;
   elapsedSec: number;
   openedDoors: string[];
+  /** 체크포인트 복귀 횟수 (결과 통계) */
+  checkpointRestarts: number;
+  /** codeInput 노드별 누적 오답 */
+  codeWrong: Record<string, number>;
 }

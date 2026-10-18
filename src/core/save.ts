@@ -72,6 +72,10 @@ export function parseCheckpoint(v: unknown): CheckpointData | null {
   if (!arrays.every((k) => isStrArr(v[k]))) return null;
   const nums = ['coins', 'coinsUsed', 'alertCount', 'elapsedSec'] as const;
   if (!nums.every((k) => isNum(v[k]))) return null;
+  // v1.1 필드: 예전 체크포인트에 없으면 기본값, 있는데 타입이 틀리면 거부
+  const restarts = v.checkpointRestarts ?? 0;
+  const codeWrong = v.codeWrong ?? {};
+  if (!isNum(restarts) || !isObj(codeWrong) || !Object.values(codeWrong).every(isNum)) return null;
   return {
     version: 1,
     level: v.level,
@@ -86,6 +90,8 @@ export function parseCheckpoint(v: unknown): CheckpointData | null {
     alertCount: v.alertCount as number,
     elapsedSec: v.elapsedSec as number,
     openedDoors: [...(v.openedDoors as string[])],
+    checkpointRestarts: restarts,
+    codeWrong: { ...(codeWrong as Record<string, number>) },
   };
 }
 

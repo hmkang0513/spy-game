@@ -31,11 +31,18 @@ export class CoinAim {
   ) {
     this.g = scene.add.graphics().setDepth(4000);
     scene.input.mouse?.disableContextMenu();
-    scene.input.on(Phaser.Input.Events.POINTER_DOWN, (p: Phaser.Input.Pointer) => {
-      if (!this.aiming) return;
-      if (p.rightButtonDown()) this.cancel(true);
-      else if (p.leftButtonDown()) this.throwCoin();
-    });
+    scene.input.on(Phaser.Input.Events.POINTER_DOWN, this.onPointer);
+  }
+
+  private readonly onPointer = (p: Phaser.Input.Pointer): void => {
+    if (!this.aiming) return;
+    if (p.rightButtonDown()) this.cancel(true);
+    else if (p.leftButtonDown()) this.throwCoin();
+  };
+
+  destroy(): void {
+    this.scene.input.off(Phaser.Input.Events.POINTER_DOWN, this.onPointer);
+    this.g.destroy();
   }
 
   /** 매 프레임: G 가 눌려 있고 동전이 있으면 조준 */

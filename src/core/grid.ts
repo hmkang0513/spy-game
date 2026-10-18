@@ -12,7 +12,7 @@ export interface Grid {
 /**
  * MapDef 의 ASCII 행과 legend 로 그리드를 만든다.
  * 범위 밖·legend 에 없는 문자는 solid & opaque 로 취급한다.
- * @param extraSolid 추가로 막을 타일 (예: 아직 열리지 않은 잠긴 문). 시야는 막지 않는다.
+ * @param extraSolid 추가로 막을 타일 (예: 아직 열리지 않은 잠긴 문). 이동과 시야를 모두 막는다.
  */
 export function gridFromMap(map: MapDef, extraSolid: TilePos[] = []): Grid {
   const height = map.rows.length;
@@ -31,7 +31,10 @@ export function gridFromMap(map: MapDef, extraSolid: TilePos[] = []): Grid {
     }
   }
   for (const t of extraSolid) {
-    if (inBounds(t.tx, t.ty)) solid[t.ty * width + t.tx] = 1;
+    if (inBounds(t.tx, t.ty)) {
+      solid[t.ty * width + t.tx] = 1;
+      opaque[t.ty * width + t.tx] = 1;
+    }
   }
 
   function inBounds(tx: number, ty: number): boolean {

@@ -43,6 +43,7 @@ export class HUDScene extends Phaser.Scene {
   private toasts: Toast[] = [];
   private t = 0;
   private stealthHud = false;
+  private badgeCount = -1;
 
   constructor() {
     super('HUD');
@@ -52,6 +53,7 @@ export class HUDScene extends Phaser.Scene {
     this.level = data.level;
     this.toasts = [];
     this.abilityTexts = [];
+    this.badgeCount = -1;
     this.alertState = 'calm';
     this.exposure = 'safe';
   }
@@ -81,13 +83,16 @@ export class HUDScene extends Phaser.Scene {
     this.subs.on('clue:added', ({ clue }) => this.toast('clue', `단서 획득: ${clue.name}`));
     this.subs.on('toast', ({ kind, text }) => this.toast(kind, text));
     this.subs.on('checkpoint:saved', () => this.toast('info', '체크포인트'));
-    this.subs.on('alert:changed', ({ state }) => (this.alertState = state));
+    this.subs.on('alert:changed', ({ state }) => this.setAlert(state));
     this.subs.on('exposure:changed', ({ exposure }) => this.setExposure(exposure));
     this.subs.on('coins:changed', () => this.buildAbilityBar());
     this.subs.on('player:caught', ({ by }) => this.caughtStamp(by));
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.subs.clear());
 
     this.setObjective(currentSession()?.currentObjective?.text ?? '');
+    this.bandText.setVisible(this.stealthHud);
+    this.exposureText.setVisible(this.stealthHud);
+    this.setAlert('calm');
     this.setExposure('safe');
     if (!gameState.store.available) this.toast('warn', '저장할 수 없는 환경입니다. 진행이 저장되지 않습니다.');
   }
@@ -98,19 +103,26 @@ export class HUDScene extends Phaser.Scene {
     this.drawBand();
     this.drawExposure();
     const unseen = currentSession()?.unseen.size ?? 0;
-    this.badge.setText(unseen > 0 ? String(unseen) : '').setVisible(unseen > 0);
+    if (unseen !== this.badgeCount) {
+      this.badgeCount = unseen;
+      this.badge.setText(unseen > 0 ? String(unseen) : '').setVisible(unseen > 0);
+    }
     this.updateToasts(dt);
   }
 
   // ── 경보 띠 (AC-32) ──
+  private setAlert(state: AlertState): void {
+    this.alertState = state;
+    const look = ALERT_LOOK[state];
+    this.bandText.setText(`${look.icon} ${look.label}`).setColor(look.text);
+  }
+
   private drawBand(): void {
     const g = this.band.clear();
-    this.bandText.setVisible(this.stealthHud);
     if (!this.stealthHud) return;
     const look = ALERT_LOOK[this.alertState];
     const flashOff = this.alertState === 'alert' && !gameState.settings.reduceFlash && Math.floor(this.t / 0.2) % 2 === 1;
     g.fillStyle(look.color, this.alertState === 'calm' ? 0.75 : flashOff ? 0.6 : 0.95).fillRect(0, 0, GAME_WIDTH, 16);
-    this.bandText.setText(`${look.icon} ${look.label}`).setColor(look.text);
     // 수색·주의는 남은 시간 막대
     const level = this.scene.get('Level') as LevelScene | null;
     const tis = level?.stealth?.alert.timeInState ?? 0;
@@ -132,11 +144,11 @@ export class HUDScene extends Phaser.Scene {
   private setExposure(e: Exposure): void {
     this.exposure = e;
     this.vignette.setVisible(e === 'hidden');
+    this.exposureText.setText(EXPOSURE_LABEL[e]).setColor(e === 'exposed' ? COLORS.danger : COLORS.text);
   }
 
   private drawExposure(): void {
     const g = this.exposureG.clear();
-    this.exposureText.setVisible(this.stealthHud);
     if (!this.stealthHud) return;
     const x = 8;
     const y = GAME_HEIGHT - 32;
@@ -153,7 +165,6 @@ export class HUDScene extends Phaser.Scene {
       g.strokeEllipse(x + 12, y + 12, 16, open * 2);
       g.fillStyle(color, 1).fillCircle(x + 12, y + 12, e === 'exposed' ? 3 : 2);
     }
-    this.exposureText.setText(EXPOSURE_LABEL[e]).setColor(e === 'exposed' ? COLORS.danger : COLORS.text);
   }
 
   private drawVignette(): void {

@@ -225,6 +225,7 @@ const level2: LevelDef = {
     // CP2-3 문서 획득 직후 (집무실 안, 문 앞)
     { id: 'CP2-3', area: { tx: 15, ty: 1, w: 8, h: 6 }, spawn: { tx: 19, ty: 6 } },
   ],
+  rules: { staffZoneObjective: 'l2_infiltrate', excuseReturnZone: 'banquet' },
   zones: [
     { id: 'lobby', kind: 'guest', area: { tx: 16, ty: 24, w: 10, h: 6 }, label: '로비' },
     { id: 'banquet', kind: 'guest', area: { tx: 14, ty: 13, w: 18, h: 11 }, label: '연회장' },

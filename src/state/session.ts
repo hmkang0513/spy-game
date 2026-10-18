@@ -26,6 +26,8 @@ export class LevelSession {
   readonly openedDoors = new Set<string>();
   /** 수첩에서 아직 보지 않은 단서 (배지) */
   readonly unseen = new Set<ClueId>();
+  /** codeInput 노드별 누적 오답 — 대화를 다시 열어도 유지 */
+  readonly codeWrong = new Map<string, number>();
   coins = 0;
   coinsUsed = 0;
   alertCount = 0;
@@ -61,7 +63,18 @@ export class LevelSession {
     this.coinsUsed = c.coinsUsed;
     this.alertCount = c.alertCount;
     this.elapsedSec = c.elapsedSec;
+    this.checkpointRestarts = c.checkpointRestarts ?? 0;
+    for (const [node, n] of Object.entries(c.codeWrong ?? {})) this.codeWrong.set(node, n);
     this.checkpointId = c.checkpointId;
+  }
+
+  /**
+   * 체크포인트 복귀(붙잡힘·재시작) 직후 호출 — 경보 횟수·경과 시간은 되돌리지 않고(max), 복귀 횟수 +1 (04 §9, AC-52)
+   */
+  carryFrom(prev: LevelSession): void {
+    this.alertCount = Math.max(this.alertCount, prev.alertCount);
+    this.elapsedSec = Math.max(this.elapsedSec, prev.elapsedSec);
+    this.checkpointRestarts = Math.max(this.checkpointRestarts, prev.checkpointRestarts) + 1;
   }
 
   /** 체크포인트 저장용 스냅샷 (AC-51) */
@@ -80,6 +93,8 @@ export class LevelSession {
       alertCount: this.alertCount,
       elapsedSec: this.elapsedSec,
       openedDoors: [...this.openedDoors],
+      checkpointRestarts: this.checkpointRestarts,
+      codeWrong: Object.fromEntries(this.codeWrong),
     };
   }
 
@@ -143,6 +158,7 @@ export class LevelSession {
       hasClue: (id) => this.clues.has(id),
       hasFlag: (f) => this.flags.has(f),
       isVisited: (n) => this.visited.has(n),
+      codeWrongCount: (n) => this.codeWrong.get(n) ?? 0,
     };
   }
 
@@ -166,6 +182,9 @@ export class LevelSession {
           break;
         case 'completeObjective':
           this.completeObjective(e.objective);
+          break;
+        case 'codeWrong':
+          this.codeWrong.set(e.node, (this.codeWrong.get(e.node) ?? 0) + 1);
           break;
         default:
           this.onSignal?.(e);

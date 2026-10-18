@@ -13,8 +13,6 @@ export interface ConeDrawOptions {
   /** 외곽선 깜빡임(감지 시작 알림) */
   flash: boolean;
   highContrast: boolean;
-  /** 동전 조준 시 반응할 경비 강조 */
-  dim?: boolean;
 }
 
 const LOOK: Record<ConeLook, { color: number; alpha: number }> = {
@@ -89,24 +87,23 @@ export function drawCone(g: Phaser.GameObjects.Graphics, polygon: Vec2[], o: Con
   if (!origin || ends.length < 2) return;
   const { color, alpha } = LOOK[o.look];
   const boost = o.highContrast ? 0.15 : 0;
-  const k = o.dim ? 0.5 : 1;
   const nearR = o.nearTiles * TILE;
   const midR = o.midTiles * TILE;
 
   const mid = clampRing(origin, ends, midR);
   // 중거리(근거리 포함) 면 + 근거리 면을 겹쳐 진하게
-  g.fillStyle(color, (alpha + boost) * k);
+  g.fillStyle(color, alpha + boost);
   fillPoly(g, [origin, ...mid]);
-  g.fillStyle(color, (alpha * 0.8 + boost) * k);
+  g.fillStyle(color, alpha * 0.8 + boost);
   fillPoly(g, [origin, ...clampRing(origin, ends, nearR)]);
   // 원거리: 바깥 끝점 + 안쪽 호(역순) = 빗금 구역
   const far = [...ends, ...[...mid].reverse()];
-  g.fillStyle(color, (0.1 + boost) * k);
+  g.fillStyle(color, 0.1 + boost);
   fillPoly(g, far);
-  g.lineStyle(1, color, (0.45 + boost) * k);
+  g.lineStyle(1, color, 0.45 + boost);
   hatchPoly(g, far, 4 * Math.SQRT2);
   // 외곽선 — 경보면 점선, 감지 시작이면 깜빡임
   const outlineAlpha = o.flash ? 1 : 0.8;
-  g.lineStyle(o.highContrast ? 2 : 1, o.flash ? 0xffffff : color, outlineAlpha * k);
+  g.lineStyle(o.highContrast ? 2 : 1, o.flash ? 0xffffff : color, outlineAlpha);
   strokePoly(g, polygon, o.look === 'alert');
 }

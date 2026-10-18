@@ -147,4 +147,27 @@ describe('alert', () => {
     run(m, T.lostSightSec + 0.5);
     expect(m.state).toBe('search');
   });
+
+  it('U-ALR-06 enterCaution() → caution, 그 시점부터 cautionSec 후 calm (v1.1, AC-40)', () => {
+    const m = new AlertMachine(T);
+    // 수색 중 오래 머문 뒤 검문 무마 → 주의 타이머는 새로 시작
+    toAlert(m);
+    run(m, T.lostSightSec + 0.5);
+    run(m, 10);
+    expect(m.state).toBe('search');
+    const count = m.alertCount;
+    m.enterCaution();
+    expect(m.state).toBe('caution');
+    expect(m.alertCount).toBe(count);
+    expect(dwell(m)).toEqual({ from: 'caution', to: 'calm', sec: expect.closeTo(T.cautionSec, 0.15) });
+  });
+
+  it('U-ALR-06 caution 이 이미 진행 중이어도 enterCaution 은 타이머를 초기화', () => {
+    const m = new AlertMachine(T);
+    m.enterCaution();
+    run(m, T.cautionSec - 5);
+    expect(m.state).toBe('caution');
+    m.enterCaution();
+    expect(dwell(m).sec).toBeCloseTo(T.cautionSec, 0);
+  });
 });

@@ -60,6 +60,11 @@ export class AlertMachine {
     if (this.state !== 'alert') this.enter('alert');
   }
 
+  /** 즉시 주의 상태로 전환한다 (L2 검문 무마 AC-40). 내부 타이머를 모두 초기화한다. */
+  enterCaution(): void {
+    this.enter('caution');
+  }
+
   /** 체크포인트 복귀 → calm. alertCount 는 유지한다. */
   reset(): void {
     this.enter('calm');

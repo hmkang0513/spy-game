@@ -1,6 +1,6 @@
 // E-03, E-04 레벨 1 클리어 경로·저장 (06 §4.3)
 import { expect, test } from '@playwright/test';
-import { collectErrors, openGame, playLevel1, readStorage, SAVE_KEY } from './helpers';
+import { CHECKPOINT_KEY, collectErrors, levelData, openGame, playLevel1, readStorage, SAVE_KEY } from './helpers';
 
 test.describe.configure({ timeout: 120_000 });
 
@@ -31,4 +31,32 @@ test('E-04 L1 클리어 후 새로고침 → L2 해금 유지, 이월 단서 저
   const raw = JSON.parse((await readStorage(page, SAVE_KEY)) ?? 'null');
   expect(raw).toMatchObject({ version: 1, unlockedLevel: 2 });
   expect(raw.carriedClues).toContain('C1-06');
+});
+
+test('E-04b L1 클리어가 L2 체크포인트를 지우지 않는다 (v1.1 리뷰, AC-53)', async ({ page }) => {
+  await openGame(page);
+  const l2cp = {
+    version: 1,
+    level: 2,
+    checkpointId: levelData(2).checkpoints[0]!.id,
+    clues: ['C1-06'],
+    flags: [],
+    objectivesDone: [],
+    coins: 0,
+    coinsUsed: 0,
+    usedExcuseGuards: [],
+    visitedNodes: [],
+    alertCount: 1,
+    elapsedSec: 100,
+    openedDoors: [],
+    checkpointRestarts: 0,
+    codeWrong: {},
+  };
+  await page.evaluate(({ k, v }) => localStorage.setItem(k, v), { k: CHECKPOINT_KEY, v: JSON.stringify(l2cp) });
+  await playLevel1(page);
+  await expect.poll(async () => (await page.evaluate(() => window.__spy.save())).unlockedLevel).toBe(2);
+  const raw = JSON.parse((await readStorage(page, CHECKPOINT_KEY)) ?? 'null');
+  expect(raw, 'L2 체크포인트 유지').not.toBeNull();
+  expect(raw.level).toBe(2);
+  expect(raw.checkpointId).toBe(l2cp.checkpointId);
 });
