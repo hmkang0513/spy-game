@@ -67,7 +67,10 @@ export interface InteractableDef {
   revealedBy?: ClueId;
   /** exit: 필요한 단서. 없으면 blockedText (AC-60) */
   requires?: ClueId[];
+  /** exit·lockedDoor: 조건을 못 채웠을 때 문구 */
   blockedText?: string;
+  /** lockedDoor: opensWithClue 로 열렸을 때 문구 */
+  openText?: string;
 }
 
 export interface ObjectiveDef {
@@ -100,6 +103,8 @@ export interface LevelRules {
   blinkRevealClue?: ClueId;
   /** 검문 무마 후 돌려보낼 손님 구역 id (AC-40) */
   excuseReturnZone?: string;
+  /** 감지 없는 레벨(guardsActive=false)에서 경비 원뿔에 처음 들어갔을 때 안내 (L1 → L2 예고) */
+  coneHintText?: string;
 }
 
 export interface LevelDef {

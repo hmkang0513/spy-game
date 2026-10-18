@@ -56,6 +56,8 @@ export class LevelScene extends Phaser.Scene {
   private excuseAccepted = false;
   private caught = false;
   private done = false;
+  /** L1 경찰 원뿔 안내를 이미 띄웠는지 */
+  private coneHintShown = false;
   /** 대화 중 걸린 경보 — 대화가 닫힌 직후 적용 (04 §9, AC-13) */
   private pendingAlarm = false;
   private resumed = false;
@@ -93,6 +95,7 @@ export class LevelScene extends Phaser.Scene {
     this.excuseGuard = null;
     this.caught = false;
     this.done = false;
+    this.coneHintShown = false;
     this.talkingTo = null;
   }
 
@@ -240,6 +243,7 @@ export class LevelScene extends Phaser.Scene {
     this.coinAim.update(inputOk && this.keys.down('coinAim'), this.can('coin') && s.coins > 0 && this.player.hide === 'none');
 
     if (this.level.guardsActive || this.phase === 'ending') this.stealth.update(dt, this.guardWorld(), this.frozenByDialogue);
+    this.checkConeHint();
     s.alertCount = this.stealth.alert.alertCount;
     for (const it of this.items) it.update(dt);
     this.talkingTo?.faceToward(this.player.feet);
@@ -251,6 +255,16 @@ export class LevelScene extends Phaser.Scene {
     }
     this.updateHint();
     this.checkAreas();
+  }
+
+  /** 감지 없는 레벨에서 원뿔에 처음 들어가면 한 번 안내한다 (L1 경찰 → L2 예고) */
+  private checkConeHint(): void {
+    const text = this.rules.coneHintText;
+    if (!text || this.level.guardsActive || this.coneHintShown || this.phase !== 'ending') return;
+    if (this.stealth.guards.some((g) => g.zone !== 'none')) {
+      this.coneHintShown = true;
+      bus.emit('toast', { kind: 'warn', text });
+    }
   }
 
   private updateHint(): void {
@@ -310,10 +324,10 @@ export class LevelScene extends Phaser.Scene {
         break;
       case 'lockedDoor':
         if (d.opensWithClue && s.hasClue(d.opensWithClue)) {
-          bus.emit('toast', { kind: 'info', text: '출입증으로 문을 열었다' });
+          bus.emit('toast', { kind: 'info', text: d.openText ?? '출입증으로 문을 열었다' });
           this.openDoor(d.id);
         } else if (this.can('lockpick')) this.openLockpick(d);
-        else bus.emit('toast', { kind: 'info', text: '잠겨 있다' });
+        else bus.emit('toast', { kind: 'warn', text: d.blockedText ?? '잠겨 있다' });
         break;
       case 'coinPickup':
         s.setFlag(pickupFlag(d));

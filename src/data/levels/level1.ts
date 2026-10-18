@@ -9,7 +9,8 @@ import { buildLegend } from '../tiles';
  *  - 북쪽 창가석 x10..19 y1..4 (페퍼 자리)
  *  - 1층 홀 x9..20 y6..13 (테이블 6개)
  *  - 동쪽 카운터 x21..26 y6..13, 주방 x21..26 y1..4
- *  - 남쪽 입구 (14,14) = 출구, 입구 밖 부두 길 y15..17
+ *  - 남쪽 입구 (14,14) = 카페 문(초대장을 받으면 열림), 입구 밖 부두 길 y15..17
+ *  - 부두 동쪽 끝 (27,16) = 출구. 경찰이 부두를 순찰한다(감지 없음, 원뿔 안내만)
  */
 const level1: LevelDef = {
   id: 1,
@@ -19,7 +20,7 @@ const level1: LevelDef = {
   guardsActive: false,
   briefing: {
     dialogue: 'brief_l1',
-    objectivesPreview: ['접선자 페퍼를 찾는다', '접선 암호를 알아낸다', '페퍼에게 정보를 받는다', '카페를 나간다'],
+    objectivesPreview: ['접선자 페퍼를 찾는다', '접선 암호를 알아낸다', '페퍼에게 정보를 받는다', '부두를 따라 항구를 빠져나간다'],
     startClues: ['C1-01', 'C1-02'],
   },
   map: {
@@ -41,9 +42,9 @@ const level1: LevelDef = {
       '~~~~~~~~#.h...h...h..,,,,,,#',
       '~~~~~~~~#............,,,,,P#',
       '~~~~~~~~##WW##D##WW#########',
-      '----------------------------',
-      '----------------------------',
-      '----------------------------',
+      'C--------------------------C',
+      'C--------------------------D',
+      'C--------------------------C',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
     ],
@@ -61,12 +62,12 @@ const level1: LevelDef = {
       id: 'police',
       character: 'police_l1',
       kind: 'patrol',
-      pos: { tx: 1, ty: 16 },
+      pos: { tx: 2, ty: 16 },
       facingDeg: 0,
       patrol: {
         waypoints: [
-          { tx: 1, ty: 16 },
-          { tx: 26, ty: 16 },
+          { tx: 2, ty: 16 },
+          { tx: 24, ty: 16 },
         ],
         waitSec: 3,
       },
@@ -75,9 +76,17 @@ const level1: LevelDef = {
   interactables: [
     { id: 'receipt', kind: 'inspect', pos: { tx: 6, ty: 9 }, dialogue: 'insp_receipt' },
     {
-      id: 'exit_cafe',
-      kind: 'exit',
+      id: 'cafe_door',
+      kind: 'lockedDoor',
       pos: { tx: 14, ty: 14 },
+      opensWithClue: 'C1-06',
+      blockedText: '아직 나갈 때가 아니다. 접선부터 끝내자.',
+      openText: '카페 문을 열었다. 짠 바닷바람이 분다.',
+    },
+    {
+      id: 'exit_dock',
+      kind: 'exit',
+      pos: { tx: 27, ty: 16 },
       requires: ['C1-06'],
       blockedText: '아직 나갈 때가 아니다. 접선부터 끝내자.',
     },
@@ -135,9 +144,12 @@ const level1: LevelDef = {
     { id: 'l1_find_contact', text: '접선자 페퍼 찾기' },
     { id: 'l1_password', text: '접선 암호 알아내기' },
     { id: 'l1_get_info', text: '페퍼에게 정보 받기' },
-    { id: 'l1_leave', text: '카페 나가기' },
+    { id: 'l1_leave', text: '부두를 따라 항구 빠져나가기' },
   ],
   checkpoints: [],
+  rules: {
+    coneHintText: '경찰의 시야에 들어갔다. 다음 임무부터는 이 원뿔을 피해야 한다.',
+  },
   zones: [],
   dialogues: [
     // ── 브리핑 ──
