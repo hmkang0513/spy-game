@@ -65,7 +65,9 @@ export class LevelWorld {
   }
 
   private buildGrid(): Grid {
-    return gridFromMap(this.level.map, [...this.locked.values()]);
+    // 출구는 닫힌 문처럼 막아 둔다 — 걸어서 지나갈 수 없고 E 로만 나간다
+    const exits = this.level.interactables.filter((it) => it.kind === 'exit').map((it) => it.pos);
+    return gridFromMap(this.level.map, [...this.locked.values(), ...exits]);
   }
 
   /** 잠긴 문을 연다 — 충돌·시야·길찾기에서 빠진다 */
