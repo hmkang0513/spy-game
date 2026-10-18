@@ -1,5 +1,5 @@
 // L1 「항구 카페 접선」 (05_레벨설계서 L1)
-// 경비 감지 없음. 페퍼에게 초대장(C1-06)을 받고 카페 문(출구)을 나서면 클리어 (AC-59).
+// 카페 안에는 경비가 없다. 초대장(C1-06)을 받으면 카페 문이 열리고, 경찰이 순찰하는 부두를 지나 출구로 나가면 클리어 (AC-59).
 import type { LevelDef } from '../../types';
 import { buildLegend } from '../tiles';
 
@@ -17,7 +17,7 @@ const level1: LevelDef = {
   title: '항구 카페 접선',
   subtitle: '블루 앵커의 단골 주문',
   targetTimeSec: 360,
-  guardsActive: false,
+  guardsActive: true,
   briefing: {
     dialogue: 'brief_l1',
     objectivesPreview: ['접선자 페퍼를 찾는다', '접선 암호를 알아낸다', '페퍼에게 정보를 받는다', '부두를 따라 항구를 빠져나간다'],
@@ -58,7 +58,7 @@ const level1: LevelDef = {
   ],
   guards: [
     {
-      // 엔딩 예고용 순찰 경찰. guardsActive=false 이므로 원뿔만 보이고 감지하지 않는다 (AC-59)
+      // 부두 순찰 경찰 — L1 유일한 감지 대상. 능력이 이동뿐이라 돌아서는 타이밍을 보고 지나간다 (AC-59)
       id: 'police',
       character: 'police_l1',
       kind: 'patrol',
@@ -146,9 +146,12 @@ const level1: LevelDef = {
     { id: 'l1_get_info', text: '페퍼에게 정보 받기' },
     { id: 'l1_leave', text: '부두를 따라 항구 빠져나가기' },
   ],
-  checkpoints: [],
+  checkpoints: [
+    // 카페 문을 나서면 저장 — 경찰에게 붙잡히면 여기서 다시 시작
+    { id: 'CP1-1', area: { tx: 13, ty: 15, w: 3, h: 1 }, spawn: { tx: 14, ty: 15 } },
+  ],
   rules: {
-    coneHintText: '경찰의 시야에 들어갔다. 다음 임무부터는 이 원뿔을 피해야 한다.',
+    coneHintText: '경찰의 시야에 들어갔다! 게이지가 차기 전에 원뿔 밖으로 벗어나자.',
   },
   zones: [],
   dialogues: [

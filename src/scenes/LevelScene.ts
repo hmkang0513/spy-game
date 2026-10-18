@@ -56,7 +56,7 @@ export class LevelScene extends Phaser.Scene {
   private excuseAccepted = false;
   private caught = false;
   private done = false;
-  /** L1 경찰 원뿔 안내를 이미 띄웠는지 */
+  /** 원뿔 첫 진입 안내를 이미 띄웠는지 */
   private coneHintShown = false;
   /** 대화 중 걸린 경보 — 대화가 닫힌 직후 적용 (04 §9, AC-13) */
   private pendingAlarm = false;
@@ -257,10 +257,10 @@ export class LevelScene extends Phaser.Scene {
     this.checkAreas();
   }
 
-  /** 감지 없는 레벨에서 원뿔에 처음 들어가면 한 번 안내한다 (L1 경찰 → L2 예고) */
+  /** 경비 원뿔에 처음 들어가면 한 번 안내한다 (L1 경찰 튜토리얼) */
   private checkConeHint(): void {
     const text = this.rules.coneHintText;
-    if (!text || this.level.guardsActive || this.coneHintShown || this.phase !== 'ending') return;
+    if (!text || this.coneHintShown) return;
     if (this.stealth.guards.some((g) => g.zone !== 'none')) {
       this.coneHintShown = true;
       bus.emit('toast', { kind: 'warn', text });

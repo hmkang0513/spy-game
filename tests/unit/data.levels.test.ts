@@ -64,7 +64,7 @@ describe('data.levels', () => {
   it('LEVELS 에 레벨 1~3 이 있고 getLevel(id).id 가 일치', () => {
     expect(allValues<LevelDef>(LEVELS)).toHaveLength(3);
     for (const id of IDS) expect(getLevel(id).id).toBe(id);
-    expect(getLevel(1).guardsActive).toBe(false);
+    expect(getLevel(1).guardsActive).toBe(true); // v1.3: L1 부두 경찰도 감지한다 (AC-59)
     expect(getLevel(2).guardsActive).toBe(true);
     expect(getLevel(3).guardsActive).toBe(true);
   });

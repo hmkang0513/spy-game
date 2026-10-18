@@ -103,7 +103,7 @@ export interface LevelRules {
   blinkRevealClue?: ClueId;
   /** 검문 무마 후 돌려보낼 손님 구역 id (AC-40) */
   excuseReturnZone?: string;
-  /** 감지 없는 레벨(guardsActive=false)에서 경비 원뿔에 처음 들어갔을 때 안내 (L1 → L2 예고) */
+  /** 경비 원뿔에 처음 들어갔을 때 한 번 띄우는 안내 (L1 튜토리얼) */
   coneHintText?: string;
 }
 
