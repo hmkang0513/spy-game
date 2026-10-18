@@ -1,0 +1,427 @@
+# CREDITS — 코드네임 모스
+
+이 게임의 그래픽은 아래 작가들의 자유 라이선스 작품을 사용(일부 재색칠·잘라내기·합성)했다.
+수정한 그림 파일(public/assets/characters, public/assets/tiles)은 원본 라이선스를 따라 CC-BY-SA 3.0 / GPL 3.0 (원본이 허용하는 범위)으로 배포한다.
+게임 코드에는 이 라이선스가 적용되지 않는다.
+
+라이선스 원문:
+- CC-BY-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/
+- CC-BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+- CC-BY 3.0: https://creativecommons.org/licenses/by/3.0/
+- OGA-BY 3.0: https://opengameart.org/content/oga-by-30-faq
+- GPL 3.0: https://www.gnu.org/licenses/gpl-3.0.html
+- SIL OFL 1.1: https://openfontlicense.org
+
+## 1. 캐릭터 스프라이트
+
+Universal LPC Spritesheet Character Generator 의 레이어를 합성해 만들었다.
+https://github.com/LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator
+https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/
+
+전체 작가 (27명): Benjamin K. Smith (BenCreating), bluecarrot16, Carlo Enrico Victoria (Nemisys), dalonedrau, Durrani, Eliza Wyatt (ElizaWy), ElizaWy, Evert, JaidynReiman, Joe White, Johannes Sjölund (wulax), laetissima, Luke Mehl, Makrohn, Manuel Riecke (MrBeast), Marcel van de Steeg (MadMarcel), Matthew Krohn (makrohn), Michael Whitlock (bigbeargames), MuffinElZangano, Napsio (Vitruvian Studio), Nila122, Pierre Vigier (pvigier), Sander Frenken (castelonia), Stephen Challener (Redshrike), Thane Brimhall (pennomi), thecilekli, TheraHedwig
+
+### 레이어별 상세
+
+- Gloves — arms/hands/gloves/thin
+  - 작가: Michael Whitlock (bigbeargames), Matthew Krohn (makrohn), Johannes Sjölund (wulax), bluecarrot16, JaidynReiman
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , http://opengameart.org/content/lpc-clothing-updates
+  - 비고: metal gloves by wulax, extended to female base by makrohn, recolors by bigbeargames, adapted to v3 bases by bluecarrot16, added to expanded animations by JaidynReiman
+  - 사용 캐릭터: moth_l3
+- Cuffs — arms/wrists/cuffs/thin
+  - 작가: bluecarrot16, JaidynReiman
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-pirates
+  - 비고: Original by bluecarrot16, female/teen version by JaidynReiman
+  - 사용 캐릭터: mio
+- Winter Beard — beards/beard/winter
+  - 작가: bluecarrot16
+  - 라이선스: CC0
+  - 출처: https://opengameart.org/content/lpc-santa
+  - 사용 캐릭터: do_bosun
+- Mustache — beards/mustache/basic
+  - 작가: JaidynReiman, Carlo Enrico Victoria (Nemisys)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-brunet-mustache
+  - 비고: Original by Nemisys, repositioning by JaidynReiman.
+  - 사용 캐릭터: pepper
+- Handlebar Mustache — beards/mustache/handlebar
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://github.com/ElizaWy/LPC/tree/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: bruno
+- Walrus Mustache — beards/mustache/walrus
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://github.com/ElizaWy/LPC/tree/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: crane
+- Body Color — body/bodies/female
+  - 작가: Benjamin K. Smith (BenCreating), bluecarrot16, TheraHedwig, Evert, MuffinElZangano, Durrani, Pierre Vigier (pvigier), ElizaWy, Matthew Krohn (makrohn), Johannes Sjölund (wulax), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://opengameart.org/content/lpc-ladies , https://opengameart.org/content/lpc-7-womens-shirts , https://opengameart.org/content/lpc-jump-expanded , https://opengameart.org/content/lpc-be-seated , https://opengameart.org/content/lpc-revised-character-basics , https://gitlab.com/vagabondgame/lpc-characters , https://opengameart.org/content/lpc-male-jumping-animation-by-durrani , https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle
+  - 비고: see details at https://opengameart.org/content/lpc-character-bases
+  - 사용 캐릭터: moth_l1, moth_l2, moth_l3, chief, mio, bella, nari, madame_crow, malsun, momo
+- Body Color — body/bodies/male
+  - 작가: bluecarrot16, JaidynReiman, Benjamin K. Smith (BenCreating), Evert, Eliza Wyatt (ElizaWy), TheraHedwig, MuffinElZangano, Durrani, Johannes Sjölund (wulax), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://opengameart.org/content/lpc-male-jumping-animation-by-durrani , https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle , https://opengameart.org/content/lpc-revised-character-basics , https://opengameart.org/content/lpc-be-seated , https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads , https://opengameart.org/content/lpc-jump-expanded , https://opengameart.org/content/lpc-character-bases
+  - 비고: see details at https://opengameart.org/content/lpc-character-bases; 'Thick' Male Revised Run/Climb by JaidynReiman (based on ElizaWy's LPC Revised)
+  - 사용 캐릭터: pepper, do_bosun, lu, police_l1, crane, toby, guard_l2_g1, guard_l2_g2, guard_l2_g3, guard_l3_g4, guard_l3_g5
+- Body Color — body/bodies/muscular
+  - 작가: bluecarrot16, JaidynReiman, Evert, TheraHedwig, MuffinElZangano, Durrani, Sander Frenken (castelonia), Benjamin K. Smith (BenCreating), Eliza Wyatt (ElizaWy), dalonedrau, Stephen Challener (Redshrike)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-barbarian-sprite-base , https://opengameart.org/content/lpc-muscular-swing-animation , https://opengameart.org/content/lpc-muscular-hurt-animation , https://opengameart.org/content/lpc-jump-expanded , https://opengameart.org/content/lpc-revised-character-basics , https://opengameart.org/content/lpc-be-seated , https://opengameart.org/content/lpc-jump-expanded , https://opengameart.org/content/lpc-character-bases , https://opengameart.org/content/lpc-male-jumping-animation-by-durrani
+  - 비고: see details at https://opengameart.org/content/lpc-character-bases
+  - 사용 캐릭터: bruno
+- Sash dress — dress/sash
+  - 작가: bluecarrot16, Thane Brimhall (pennomi), laetissima, Matthew Krohn (makrohn)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-2-characters
+  - 비고: adapted to v3 bases and recolored by bluecarrot16
+  - 사용 캐릭터: bella
+- Slit dress — dress/slit
+  - 작가: Nila122, ElizaWy, bluecarrot16
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 2.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-clothes-and-hair , http://opengameart.org/content/lpc-clothing-updates
+  - 비고: original "TightDress" by Nila122, by ElizaWy, extended to all animation frames and edited for v3 bases by bluecarrot16
+  - 사용 캐릭터: moth_l2, madame_crow
+- Thick Eyebrows — eyes/eyebrows/thick
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://github.com/ElizaWy/LPC/tree/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: pepper, do_bosun, police_l1, crane, guard_l2_g1, guard_l2_g2, guard_l2_g3, bruno, guard_l3_g4, guard_l3_g5
+- Thin Eyebrows — eyes/eyebrows/thin
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://github.com/ElizaWy/LPC/tree/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: moth_l1, moth_l2, moth_l3, chief, mio, lu, bella, nari, toby, madame_crow, malsun, momo
+- Simple Earring Right — facial/earrings/simple
+  - 작가: bluecarrot16
+  - 라이선스: CC0
+  - 출처: https://opengameart.org/content/lpc-pirates
+  - 사용 캐릭터: guard_l2_g2
+- Halfmoon Glasses — facial/glasses/halfmoon
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://github.com/ElizaWy/LPC/tree/main/Characters/Head%20Accessories , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: chief
+- Nerd Glasses — facial/glasses/nerd
+  - 작가: JaidynReiman, Thane Brimhall (pennomi), laetissima
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-base-character-expressions
+  - 비고: Original by Pennomi, repositioning and recolors by JaidynReiman.
+  - 사용 캐릭터: momo
+- Round Glasses — facial/glasses/round
+  - 작가: bluecarrot16, Thane Brimhall (pennomi), laetissima
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/clothing-facial-features-and-ui-elements , https://opengameart.org/content/lpc-gentleman
+  - 사용 캐릭터: nari
+- Sunglasses — facial/glasses/sunglasses
+  - 작가: Michael Whitlock (bigbeargames), Thane Brimhall (pennomi), laetissima
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-base-character-expressions , https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+  - 사용 캐릭터: guard_l2_g3
+- Basic Boots — feet/boots/basic
+  - 작가: JaidynReiman, bluecarrot16, Nila122
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 2.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-clothes-and-hair , https://opengameart.org/content/lpc-expanded-socks-shoes
+  - 비고: original by Nila122, edited for male and v3 bases by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman
+  - 사용 캐릭터: do_bosun, bruno, guard_l3_g4, guard_l3_g5
+- Basic Boots — feet/boots/basic/thin
+  - 작가: JaidynReiman, bluecarrot16, Nila122
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 2.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-clothes-and-hair , https://opengameart.org/content/lpc-expanded-socks-shoes
+  - 비고: original by Nila122, edited for v3 bases by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman
+  - 사용 캐릭터: moth_l1, moth_l3
+- Basic Shoes — feet/shoes
+  - 작가: JaidynReiman, bluecarrot16, Johannes Sjölund (wulax)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , http://opengameart.org/content/lpc-clothing-updates , https://opengameart.org/content/lpc-expanded-socks-shoes
+  - 비고: original by wulax, edited for v3 base by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman
+  - 사용 캐릭터: pepper, lu, police_l1, crane, toby, guard_l2_g1, guard_l2_g2, guard_l2_g3
+- Basic Shoes — feet/shoes/basic/thin
+  - 작가: JaidynReiman, Joe White, Johannes Sjölund (wulax)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , http://opengameart.org/content/lpc-clothing-updates , https://opengameart.org/content/lpc-expanded-socks-shoes
+  - 비고: original by wulax, edited for female base by Joe White, edited for v3 base by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman
+  - 사용 캐릭터: moth_l2, chief, mio, bella, nari, madame_crow, malsun, momo
+- Bangs bun — hair/bangs_bun
+  - 작가: ElizaWy, bluecarrot16
+  - 라이선스: CC0
+  - 출처: https://opengameart.org/content/lpc-hair , https://github.com/ElizaWy/LPC/blob/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 비고: Original by bluecarrot16, animated by ElizaWy.
+  - 사용 캐릭터: chief
+- Bangsshort — hair/bangsshort
+  - 작가: JaidynReiman, Manuel Riecke (MrBeast)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://opengameart.org/content/lpc-expanded-hair
+  - 사용 캐릭터: malsun
+- Bob — hair/bob
+  - 작가: ElizaWy, bluecarrot16
+  - 라이선스: CC0
+  - 출처: https://opengameart.org/content/lpc-hair , https://github.com/ElizaWy/LPC/blob/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 비고: Original by bluecarrot16. Edited and animated by ElizaWy.
+  - 사용 캐릭터: moth_l1, moth_l2, moth_l3
+- Buzzcut — hair/buzzcut
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-hair
+  - 사용 캐릭터: police_l1, guard_l2_g2, bruno
+- Curly long — hair/curly_long
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-hair
+  - 사용 캐릭터: lu
+- Curly short — hair/curly_short
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: toby
+- Curly short 2 — hair/curly_short2
+  - 작가: ElizaWy
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://github.com/ElizaWy/LPC/tree/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 사용 캐릭터: momo
+- High ponytail — hair/high_ponytail
+  - 작가: JaidynReiman, ElizaWy, bluecarrot16
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-hair , https://opengameart.org/content/lpc-expanded-hair
+  - 사용 캐릭터: bella
+- Long straight — hair/long_straight
+  - 작가: JaidynReiman, thecilekli, bluecarrot16
+  - 라이선스: CC0
+  - 출처: https://opengameart.org/content/lpc-long-straight-hair-with-12-colors , https://opengameart.org/content/lpc-hair , https://opengameart.org/content/lpc-expanded-hair
+  - 사용 캐릭터: madame_crow
+- Page2 — hair/page2
+  - 작가: JaidynReiman, ElizaWy, Johannes Sjölund (wulax)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://github.com/ElizaWy/LPC/tree/main/Characters/Hair , https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+  - 비고: Original by Johannes Sjölund (wulax). Edited, animated, and recolored by ElizaWy.
+  - 사용 캐릭터: nari
+- Parted — hair/parted
+  - 작가: JaidynReiman, Joe White, Manuel Riecke (MrBeast)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://github.com/jrconway3/Universal-LPC-spritesheet/commit/46ddcf05a0e43e7aa6ffd47d350eef0eb529ac24 , https://opengameart.org/content/lpc-expanded-hair
+  - 비고: down 4 and 5 added by JaidynReiman; recolors by Joe White; original by Manuel Riecke (MrBeast)
+  - 사용 캐릭터: guard_l2_g3
+- Pixie — hair/pixie
+  - 작가: JaidynReiman, Manuel Riecke (MrBeast)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-expanded-hair
+  - 사용 캐릭터: mio
+- Plain — hair/plain
+  - 작가: JaidynReiman, Manuel Riecke (MrBeast), Joe White
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/ponytail-and-plain-hairstyles , https://opengameart.org/content/lpc-expanded-hair
+  - 사용 캐릭터: pepper, do_bosun, guard_l2_g1, guard_l3_g5
+- Bandana — hat/cloth/bandana
+  - 작가: Matthew Krohn (makrohn), JaidynReiman, Marcel van de Steeg (MadMarcel), JaidynReiman
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/lpc-female-orcogregoblintroll-base-walkcycle , https://github.com/makrohn/Universal-LPC-spritesheet/commit/f50007cb47c235d8896cafae7a613f0b6a9a09a8?short_path=02b86d4#diff-02b86d45789a3e3e8e79519c7d17d15c9e6ecc9b4ddecb1bcd8dfbbaef430b75 , https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+  - 사용 캐릭터: malsun
+- Formal Bowler Hat — hat/formal/bowler
+  - 작가: bluecarrot16
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-gentleman , https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+  - 사용 캐릭터: pepper
+- Kettle helm — hat/helmet/kettle
+  - 작가: Johannes Sjölund (wulax), JaidynReiman, Napsio (Vitruvian Studio)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+  - 비고: previously referred to as chain-hat, color reduction by Napsio (Vitruvian Studio)
+  - 사용 캐릭터: guard_l3_g4
+- Bonnie Alt Tilt — hat/pirate/bonnie
+  - 작가: bluecarrot16, JaidynReiman
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-pirates , https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+  - 비고: Bonnie Hat by Bluecarrot16, layers and added animations by JaidynReiman
+  - 사용 캐릭터: do_bosun, police_l1, guard_l2_g1, bruno, guard_l3_g5
+- Cavalier — hat/pirate/cavalier
+  - 작가: bluecarrot16, JaidynReiman
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-pirates , https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+  - 비고: Cavalier Hat by Bluecarrot16, layers and added animations by JaidynReiman
+  - 사용 캐릭터: madame_crow
+- Human Female — head/heads/human/female
+  - 작가: bluecarrot16, Benjamin K. Smith (BenCreating), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/ , https://opengameart.org/content/lpc-character-bases
+  - 비고: original head by Redshrike, tweaks by BenCreating, modular version by bluecarrot16
+  - 사용 캐릭터: moth_l1, moth_l2, moth_l3, mio, bella, nari, madame_crow, momo
+- Human Female Elderly — head/heads/human/female_elderly
+  - 작가: Benjamin K. Smith (BenCreating), Eliza Wyatt (ElizaWy), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-revised-elders , https://opengameart.org/content/lpc-character-bases
+  - 사용 캐릭터: chief, malsun
+- Human Male — head/heads/human/male
+  - 작가: bluecarrot16, Benjamin K. Smith (BenCreating), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-character-bases
+  - 비고: original head by Redshrike, tweaks by BenCreating, modular version by bluecarrot16
+  - 사용 캐릭터: lu, police_l1, guard_l2_g1, guard_l2_g2, guard_l2_g3, bruno, guard_l3_g4
+- Human Male Elderly — head/heads/human/male_elderly
+  - 작가: Benjamin K. Smith (BenCreating), Eliza Wyatt (ElizaWy), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-revised-elders , https://opengameart.org/content/lpc-character-bases
+  - 사용 캐릭터: do_bosun, crane
+- Human Male Gaunt — head/heads/human/male_gaunt
+  - 작가: Stephen Challener (Redshrike), bluecarrot16
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-folk
+  - 비고: original head by Redshrike, gaunt version by bluecarrot16
+  - 사용 캐릭터: pepper, guard_l3_g5
+- Human Male Small — head/heads/human/male_small
+  - 작가: ElizaWy, Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY
+  - 비고: original head by Redshrike, reduced size head by ElizaWy
+  - 사용 캐릭터: toby
+- Wrinkles — head/wrinkles
+  - 작가: bluecarrot16
+  - 라이선스: CC0
+  - 사용 캐릭터: malsun
+- Pants — legs/pants/male
+  - 작가: bluecarrot16, JaidynReiman, ElizaWy, Matthew Krohn (makrohn), Johannes Sjölund (wulax), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, GPL 3.0, CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://opengameart.org/content/lpc-expanded-pants
+  - 비고: original male pants by wulax, recolors and edits to v3 base by bluecarrot16, climb/jump/run/sit/emotes/revised combat by JaidynReiman based on ElizaWy's LPC Revised
+  - 사용 캐릭터: pepper, do_bosun, lu, police_l1, crane, toby, guard_l2_g1, guard_l2_g2, guard_l2_g3, bruno, guard_l3_g4, guard_l3_g5
+- Pants — legs/pants/thin
+  - 작가: bluecarrot16, JaidynReiman, ElizaWy, Joe White, Matthew Krohn (makrohn), Johannes Sjölund (wulax), Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, GPL 3.0, CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , http://opengameart.org/content/lpc-clothing-updates , https://opengameart.org/content/lpc-expanded-pants
+  - 비고: original male pants by wulax, edited for female by Joe White, recolors and edits to v3 base by bluecarrot16, teen legs by ElizaWy derived from base, climb/jump/run/sit/emotes/revised combat by JaidynReiman based on ElizaWy's LPC Revised
+  - 사용 캐릭터: moth_l1, moth_l3, chief, mio, malsun, momo
+- Straight skirt — legs/skirts/straight
+  - 작가: bluecarrot16, ElizaWy
+  - 라이선스: OGA-BY 3.0, GPL 3.0
+  - 출처: http://opengameart.org/content/lpc-clothing-updates
+  - 비고: original skirt by ElizaWy, extended to all animation frames and edited for v3 bases by bluecarrot16
+  - 사용 캐릭터: nari
+- Scarf — neck/scarf
+  - 작가: Nila122, JaidynReiman, Johannes Sjölund (wulax), Stephen Challener (Redshrike)
+  - 라이선스: OGA-SA 3.0, CC-BY-SA 3.0, GPL 2.0, GPL 3.0
+  - 출처: https://opengameart.org/content/more-lpc-clothes-and-hair
+  - 비고: Original by Nila122, climb/sit/emote/jump/run animations by JaidynReiman
+  - 사용 캐릭터: moth_l1, moth_l2, moth_l3, lu
+- Bowtie — neck/tie/bowtie
+  - 작가: JaidynReiman, bluecarrot16, Thane Brimhall (pennomi), laetissima, Makrohn
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-2-characters , https://opengameart.org/content/lpc-gentleman
+  - 비고: Originally by pennomi/laetissima/Makrohn, edited by bluecarrot16, recolors by JaidynReiman
+  - 사용 캐릭터: crane, toby
+- Necktie — neck/tie/necktie
+  - 작가: JaidynReiman, bluecarrot16, Thane Brimhall (pennomi), laetissima, Makrohn
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-2-characters , https://opengameart.org/content/lpc-gentleman
+  - 비고: Originally by pennomi/laetissima/Makrohn, edited by bluecarrot16, animations and recolors by JaidynReiman
+  - 사용 캐릭터: guard_l2_g2
+- Epaulets — shoulders/epaulets
+  - 작가: bluecarrot16, JaidynReiman
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/lpc-pirates
+  - 비고: Original by bluecarrot16, jump/run/sit/emote/revised combat frames and female by JaidynReiman
+  - 사용 캐릭터: crane
+- Apron full — torso/aprons/apron_full
+  - 작가: ElizaWy, bluecarrot16
+  - 라이선스: OGA-BY 3.0, GPL 3.0
+  - 출처: http://opengameart.org/content/lpc-clothing-updates
+  - 비고: original apron by ElizaWy, extended to all animation frames and edited for v3 bases by bluecarrot16
+  - 사용 캐릭터: mio
+- Overalls — torso/aprons/overalls
+  - 작가: ElizaWy, bluecarrot16, JaidynReiman
+  - 라이선스: OGA-BY 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-revised-character-basics , http://opengameart.org/content/lpc-clothing-updates
+  - 비고: original overalls by ElizaWy, extended to all animation frames, adapted from teen to male base, and edited for v3 bases by bluecarrot16; extended to combat animations by JaidynReiman
+  - 사용 캐릭터: lu
+- Collared/Formal Longsleeve — torso/clothes/longsleeve/formal
+  - 작가: bluecarrot16, Thane Brimhall (pennomi), laetissima, Stephen Challener (Redshrike), Johannes Sjölund (wulax)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , https://opengameart.org/content/lpc-2-characters , https://opengameart.org/content/lpc-gentleman
+  - 사용 캐릭터: crane, guard_l2_g2
+- Longsleeve — torso/clothes/longsleeve/longsleeve/female
+  - 작가: bluecarrot16, ElizaWy, JaidynReiman, Stephen Challener (Redshrike)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles , https://opengameart.org/content/lpc-7-womens-shirts , http://opengameart.org/content/lpc-clothing-updates , https://opengameart.org/content/lpc-revised-character-basics , https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing , https://opengameart.org/content/lpc-expanded-sit-run-jump-more , https://opengameart.org/content/lpc-expanded-simple-shirts
+  - 비고: original by ElizaWy, edited to v3 bases by bluecarrot16; cleanup and climb/jump/run/sit/emote/revised combat adapted from LPC Revised by JaidynReiman
+  - 사용 캐릭터: moth_l3, mio, malsun
+- Longsleeve — torso/clothes/longsleeve/longsleeve/male
+  - 작가: JaidynReiman, Johannes Sjölund (wulax)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites , http://opengameart.org/content/lpc-clothing-updates , https://opengameart.org/content/lpc-revised-character-basics , https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing , https://opengameart.org/content/lpc-expanded-sit-run-jump-more , https://opengameart.org/content/lpc-expanded-simple-shirts
+  - 비고: original by wulax; tweaks and further recolors by bluecarrot16; cleanup and climb/jump/run/sit/emote/revised combat adapted from LPC Revised by JaidynReiman
+  - 사용 캐릭터: pepper, do_bosun, lu, toby, bruno
+- Longsleeve 2 Buttoned — torso/clothes/longsleeve/longsleeve2_buttoned
+  - 작가: ElizaWy, JaidynReiman, Stephen Challener (Redshrike), Johannes Sjölund (wulax)
+  - 라이선스: OGA-BY 3.0
+  - 출처: http://opengameart.org/content/lpc-revised-character-basics , https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing , https://opengameart.org/content/lpc-expanded-sit-run-jump-more , https://opengameart.org/content/lpc-expanded-simple-shirts
+  - 비고: original by ElizaWy; spellcast/thrust/shoot/hurt/male adapted from original by JaidynReiman
+  - 사용 캐릭터: chief, nari, police_l1, guard_l2_g1, guard_l2_g3, guard_l3_g4, guard_l3_g5
+- Robe — torso/clothes/robe
+  - 작가: Luke Mehl
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/female-mage-clothing-set
+  - 사용 캐릭터: moth_l1, momo
+- Collared coat — torso/jacket/collared
+  - 작가: bluecarrot16
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-gentleman , https://opengameart.org/content/lpc-pirates
+  - 사용 캐릭터: guard_l2_g2
+- Frock coat — torso/jacket/frock
+  - 작가: bluecarrot16
+  - 라이선스: CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/lpc-pirates
+  - 사용 캐릭터: crane
+- Trench coat — torso/jacket/trench
+  - 작가: bluecarrot16
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-gentleman
+  - 사용 캐릭터: pepper, do_bosun
+- Frock coat buttons — torso/jacket/trim
+  - 작가: bluecarrot16
+  - 라이선스: OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-pirates
+  - 사용 캐릭터: crane
+- Leather Belt — torso/waist/belt_leather
+  - 작가: bluecarrot16, Johannes Sjölund (wulax), Matthew Krohn (makrohn)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+  - 출처: https://opengameart.org/content/lpc-combat-armor-for-women , https://opengameart.org/content/lpc-pirates
+  - 사용 캐릭터: moth_l1, police_l1, guard_l2_g1, guard_l2_g3, guard_l3_g4, guard_l3_g5
+- Sash — torso/waist/sash
+  - 작가: bluecarrot16, Nila122
+  - 라이선스: OGA-BY 3.0, GPL 2.0, GPL 3.0, CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/more-lpc-clothes-and-hair , https://opengameart.org/content/lpc-pirates
+  - 사용 캐릭터: crane
+
+## 2. 타일셋
+
+public/assets/tiles/tiles_l1~l3.png 는 아래 타일을 32×32 로 잘라 다시 배치했다 (일부 회색화·경고 줄무늬 추가).
+
+- Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)
+  - 작가: Lanea Zimmerman (Sharm)
+  - 라이선스: CC-BY-SA 3.0, GPL 3.0, OGA-BY 3.0 (Sharm·Redshrike 작품)
+  - 출처: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  - 비고: 사용한 타일(inside, house, cabinets, country, chests, grass, treetop, cement, water, bridges, dungeon)은 CREDITS.TXT 기준 Lanea Zimmerman (Sharm) 작품.
+- LPC Interior Castle Tiles
+  - 작가: Lanea Zimmerman (Sharm)
+  - 라이선스: CC-BY 3.0/4.0, CC-BY-SA 3.0/4.0, GPL 3.0, OGA-BY 3.0
+  - 출처: https://opengameart.org/content/lpc-interior-castle-tiles
+  - 비고: Attribution Instructions: "Please credit Lanea Zimmerman"
+- [LPC Revised] The Office
+  - 작가: Eliza Wyatt (ElizaWy / Death's Darling), Lanea Zimmerman (Sharm)
+  - 라이선스: OGA-BY 3.0, CC-BY-SA 3.0
+  - 출처: https://opengameart.org/content/lpc-revised-the-office
+  - 비고: Credits.txt: "Credit: Eliza Wyatt and Lanea Zimmerman (Sharm)", https://github.com/ElizaWy/LPC (Desk Ornate, Card Table, Copy Machine 사용)
+- Futuristic Doctor's Office
+  - 작가: spiral atlas, Lanea Zimmerman (Sharm) 외 LPC 원작자 (zip 내 attribution 파일)
+  - 라이선스: CC-BY-SA 4.0, CC-BY-SA 3.0 / GPL 3.0 (원작 LPC 에셋)
+  - 출처: https://opengameart.org/content/futuristic-doctors-office
+  - 비고: Based on existing LPC assets (Lanea Zimmerman 외)
+
+## 3. 폰트
+
+- Galmuri (갈무리) — Lee Minseo (quiple)
+  - 라이선스: SIL Open Font License 1.1
+  - 출처: https://github.com/quiple/galmuri
+
+---
+이 파일은 tools/build-credits.mjs 가 생성한다 (npm run assets).

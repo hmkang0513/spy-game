@@ -1,0 +1,418 @@
+{
+  "_comment": [
+    "캐릭터 레시피 — tools/build-characters.mjs 가 읽는다. 외형 기준: docs/05_레벨설계서.md NPC 표 (03_화면설계서 §8 원칙).",
+    "body: male|female|muscular|teen, skin: body 팔레트 색(light, amber, olive, taupe, bronze, brown, black), eyes: eye 팔레트 색.",
+    "layers[].def: LPC sheet_definitions 상대 경로(확장자 제외). color/colors: 팔레트 색 이름 또는 'material.version.name'. variant: 변형 파일 이름.",
+    "layers[].recolor: [{from, to}] 수동 색 치환 (팔레트 미지원 변형 파일용, '#hex' 배열 또는 'cloth.ulpc.navy').",
+    "signatureColor: 초상 배경색 (src/data/characters.ts 와 일치)."
+  ],
+  "palettes": {
+    "darknavy": ["#0b0c18", "#121629", "#1a2140", "#232e58", "#2f3e72", "#40528c"],
+    "suitblack": ["#070709", "#0e0e14", "#17171f", "#22222c", "#30303c", "#45454f"]
+  },
+  "characters": {
+    "moth_l1": {
+      "name": "모스",
+      "signatureColor": "#C8323C",
+      "body": "female",
+      "skin": "amber",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "black" },
+        { "def": "hair/bob/hair_bob", "color": "black" },
+        { "def": "legs/pants/legs_pants", "color": "charcoal" },
+        { "def": "feet/boots/feet_boots_basic", "color": "black" },
+        {
+          "def": "torso/shirts/torso_clothes_robe",
+          "variant": "white",
+          "recolor": [{ "from": ["#3e3e3e", "#707070", "#b5b5b5", "#e0e0e0"], "to": ["#161a38", "#232c5c", "#334384", "#4a5fa8"] }]
+        },
+        { "def": "torso/waist/belt_leather", "variant": "charcoal" },
+        { "def": "headwear/neck/neck_scarf", "color": "red" }
+      ]
+    },
+    "moth_l2": {
+      "name": "모스",
+      "signatureColor": "#C8323C",
+      "body": "female",
+      "skin": "amber",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "black" },
+        { "def": "hair/bob/hair_bob", "color": "black" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/dresses/dress_slit", "variant": "navy" },
+        { "def": "headwear/neck/neck_scarf", "color": "red" }
+      ]
+    },
+    "moth_l3": {
+      "name": "모스",
+      "signatureColor": "#C8323C",
+      "body": "female",
+      "skin": "amber",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "black" },
+        { "def": "hair/bob/hair_bob", "color": "black" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "black" },
+        { "def": "legs/pants/legs_pants", "color": "charcoal" },
+        { "def": "feet/boots/feet_boots_basic", "color": "black" },
+        { "def": "arms/arms_gloves", "color": "cloth.ulpc.black" },
+        { "def": "headwear/neck/neck_scarf", "color": "red" }
+      ]
+    },
+    "chief": {
+      "name": "체리 국장",
+      "signatureColor": "#7A4FA0",
+      "body": "female",
+      "skin": "light",
+      "eyes": "gray",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female_elderly" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "platinum" },
+        { "def": "hair/braids/hair_bangs_bun", "color": "platinum" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "purple" },
+        { "def": "legs/pants/legs_pants", "color": "purple" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "headwear/accessories/glasses/facial_glasses_halfmoon", "variant": "black" }
+      ]
+    },
+    "pepper": {
+      "name": "페퍼",
+      "signatureColor": "#C9B48A",
+      "body": "male",
+      "skin": "light",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male_gaunt" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "dark_gray" },
+        { "def": "hair/short/hair_plain", "color": "dark_gray" },
+        { "def": "hair/mustaches/beards_mustache", "color": "dark_gray" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "white" },
+        { "def": "legs/pants/legs_pants", "color": "brown" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "brown" },
+        {
+          "def": "torso/jacket/torso_jacket_trench",
+          "variant": "gray",
+          "recolor": [{ "from": ["#302732", "#5e5252", "#7e7068", "#867e7f"], "to": ["#4a3a28", "#8a7354", "#b39a72", "#c9b48a"] }]
+        },
+        { "def": "headwear/hats/formal/hat_formal_bowler", "variant": "gray" }
+      ]
+    },
+    "mio": {
+      "name": "미오",
+      "signatureColor": "#E58FB4",
+      "body": "female",
+      "skin": "light",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "pink" },
+        { "def": "hair/short/hair_pixie", "color": "pink" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "white" },
+        { "def": "legs/pants/legs_pants", "color": "black" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/aprons/torso_aprons_apron_full", "variant": "brown" },
+        { "def": "arms/wrists/wrists_cuffs", "color": "brown" }
+      ]
+    },
+    "do_bosun": {
+      "name": "도 갑판장",
+      "signatureColor": "#E3B341",
+      "body": "male",
+      "skin": "bronze",
+      "eyes": "gray",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male_elderly" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "white" },
+        { "def": "hair/short/hair_plain", "color": "white" },
+        { "def": "hair/beards/beards_winter", "color": "white" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "navy" },
+        { "def": "legs/pants/legs_pants", "color": "navy" },
+        { "def": "feet/boots/feet_boots_basic", "color": "black" },
+        {
+          "def": "torso/jacket/torso_jacket_trench",
+          "variant": "gray",
+          "recolor": [{ "from": ["#302732", "#5e5252", "#7e7068", "#867e7f"], "to": ["#5a4210", "#b8891c", "#e0b532", "#f0cf5a"] }]
+        },
+        { "def": "headwear/hats/caps/hat_cap_bonnie_tilt", "variant": "navy" }
+      ]
+    },
+    "lu": {
+      "name": "루",
+      "signatureColor": "#3E7CC9",
+      "body": "male",
+      "skin": "olive",
+      "eyes": "green",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "chestnut" },
+        { "def": "hair/curly/hair_curly_long", "color": "chestnut" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "white" },
+        { "def": "legs/pants/legs_pants", "color": "tan" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "brown" },
+        { "def": "torso/aprons/torso_aprons_overalls", "variant": "tan" },
+        { "def": "headwear/neck/neck_scarf", "color": "blue" }
+      ]
+    },
+    "police_l1": {
+      "name": "순찰 경찰",
+      "signatureColor": "#2B3A67",
+      "body": "male",
+      "skin": "taupe",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "black" },
+        { "def": "hair/bald/hair_buzzcut", "color": "black" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "@darknavy" },
+        { "def": "legs/pants/legs_pants", "color": "@darknavy" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/waist/belt_leather", "variant": "charcoal" },
+        { "def": "headwear/hats/caps/hat_cap_bonnie", "variant": "navy" }
+      ]
+    },
+    "bella": {
+      "name": "벨라",
+      "signatureColor": "#2E6B4A",
+      "body": "female",
+      "skin": "light",
+      "eyes": "blue",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "blonde" },
+        { "def": "hair/braids/hair_high_ponytail", "color": "blonde" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/dresses/dress_sash", "variant": "forest" }
+      ]
+    },
+    "crane": {
+      "name": "오스왈드 크레인",
+      "signatureColor": "#8C1C3C",
+      "body": "male",
+      "skin": "light",
+      "eyes": "blue",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male_elderly" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "white" },
+        { "def": "hair/mustaches/beards_walrus", "color": "white" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve_formal", "variant": "white" },
+        { "def": "legs/pants/legs_pants", "color": "black" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/jacket/torso_jacket_frock", "variant": "black" },
+        { "def": "torso/jacket/accessory/torso_jacket_frock_buttons", "variant": "gold" },
+        { "def": "torso/waist/belt_sash", "variant": "maroon" },
+        { "def": "arms/shoulders/shoulders_epaulets", "color": "metal.ulpc.gold" },
+        { "def": "headwear/neck/neck_bowtie", "color": "white" }
+      ]
+    },
+    "nari": {
+      "name": "나리",
+      "signatureColor": "#8A8D99",
+      "body": "female",
+      "skin": "light",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "black" },
+        { "def": "hair/short/hair_page2", "color": "black" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "gray" },
+        { "def": "legs/skirts/legs_skirt_straight", "color": "gray" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "headwear/accessories/glasses/facial_glasses_round", "variant": "black" }
+      ]
+    },
+    "toby": {
+      "name": "토비",
+      "signatureColor": "#D9C9A3",
+      "body": "male",
+      "skin": "light",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male_small" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "chestnut" },
+        { "def": "hair/curly/hair_curly_short", "color": "chestnut" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "white" },
+        { "def": "legs/pants/legs_pants", "color": "black" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "headwear/neck/neck_bowtie", "color": "black" }
+      ]
+    },
+    "madame_crow": {
+      "name": "까마귀 부인",
+      "signatureColor": "#4B3A5E",
+      "body": "female",
+      "skin": "light",
+      "eyes": "red",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "black" },
+        { "def": "hair/long/hair_long_straight", "color": "black" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/dresses/dress_slit", "variant": "black" },
+        { "def": "headwear/hats/caps/hat_cap_cavalier", "variant": "black" },
+        { "def": "headwear/hats/caps/hat_cap_cavalier_feather", "variant": "black" }
+      ]
+    },
+    "guard_l2_g1": {
+      "name": "경비 G1",
+      "signatureColor": "#3A4466",
+      "body": "male",
+      "skin": "light",
+      "eyes": "blue",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "sandy" },
+        { "def": "hair/short/hair_plain", "color": "sandy" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "@darknavy" },
+        { "def": "legs/pants/legs_pants", "color": "@darknavy" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/waist/belt_leather", "variant": "charcoal" },
+        { "def": "headwear/hats/caps/hat_cap_bonnie", "variant": "navy" }
+      ]
+    },
+    "guard_l2_g2": {
+      "name": "경비 G2",
+      "signatureColor": "#2F2F38",
+      "body": "male",
+      "skin": "brown",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "black" },
+        { "def": "hair/bald/hair_buzzcut", "color": "black" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve_formal", "variant": "white" },
+        { "def": "legs/pants/legs_pants", "color": "black" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/jacket/torso_jacket_collared", "variant": "black" },
+        { "def": "headwear/neck/neck_necktie", "color": "maroon" },
+        { "def": "headwear/accessories/earrings/facial_earring_right", "variant": "black" }
+      ]
+    },
+    "guard_l2_g3": {
+      "name": "경비 G3",
+      "signatureColor": "#4A5568",
+      "body": "male",
+      "skin": "olive",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "dark_brown" },
+        { "def": "hair/short/hair_parted", "color": "dark_brown" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "@darknavy" },
+        { "def": "legs/pants/legs_pants", "color": "@darknavy" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/waist/belt_leather", "variant": "charcoal" },
+        { "def": "headwear/accessories/glasses/facial_glasses_sunglasses", "variant": "sunglasses" }
+      ]
+    },
+    "malsun": {
+      "name": "말순 여사",
+      "signatureColor": "#A6CF5B",
+      "body": "female",
+      "skin": "light",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female_elderly" },
+        { "def": "head/head_wrinkles" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "gray" },
+        { "def": "hair/short/hair_bangsshort", "color": "gray" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "green" },
+        { "def": "legs/pants/legs_pants", "color": "green" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "brown" },
+        { "def": "headwear/coverings/bandana/hat_bandana", "color": "rose" }
+      ]
+    },
+    "momo": {
+      "name": "모모",
+      "signatureColor": "#E07A2E",
+      "body": "female",
+      "skin": "light",
+      "eyes": "green",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_female" },
+        { "def": "head/eyebrows/eyebrows_thin", "color": "carrot" },
+        { "def": "hair/curly/hair_curly_short2", "color": "carrot" },
+        { "def": "legs/pants/legs_pants", "color": "slate" },
+        { "def": "feet/shoes/feet_shoes_basic", "color": "black" },
+        { "def": "torso/shirts/torso_clothes_robe", "variant": "white" },
+        { "def": "headwear/accessories/glasses/facial_glasses_nerd", "variant": "brown" }
+      ]
+    },
+    "bruno": {
+      "name": "브루노",
+      "signatureColor": "#B3282D",
+      "body": "muscular",
+      "skin": "taupe",
+      "eyes": "gray",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "black" },
+        { "def": "hair/bald/hair_buzzcut", "color": "black" },
+        { "def": "hair/mustaches/beards_handlebar", "color": "black" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve", "color": "charcoal", "bodyType": "male" },
+        { "def": "legs/pants/legs_pants", "color": "charcoal" },
+        { "def": "feet/boots/feet_boots_basic", "color": "black" },
+        { "def": "headwear/hats/caps/hat_cap_bonnie", "variant": "red" }
+      ]
+    },
+    "guard_l3_g4": {
+      "name": "경비 G4",
+      "signatureColor": "#7B8088",
+      "body": "male",
+      "skin": "black",
+      "eyes": "brown",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "black" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "gray" },
+        { "def": "legs/pants/legs_pants", "color": "gray" },
+        { "def": "feet/boots/feet_boots_basic", "color": "black" },
+        { "def": "torso/waist/belt_leather", "variant": "charcoal" },
+        { "def": "headwear/helmets/helmets/hat_helmet_kettle", "colors": { "color_1": "steel", "color_2": "charcoal" } }
+      ]
+    },
+    "guard_l3_g5": {
+      "name": "경비 G5",
+      "signatureColor": "#5F6B5A",
+      "body": "male",
+      "skin": "light",
+      "eyes": "green",
+      "layers": [
+        { "def": "body/body" },
+        { "def": "head/heads/human/heads_human_male_gaunt" },
+        { "def": "head/eyebrows/eyebrows_thick", "color": "ginger" },
+        { "def": "hair/short/hair_plain", "color": "ginger" },
+        { "def": "torso/shirts/longsleeve/torso_clothes_longsleeve2_buttoned", "color": "gray" },
+        { "def": "legs/pants/legs_pants", "color": "gray" },
+        { "def": "feet/boots/feet_boots_basic", "color": "black" },
+        { "def": "torso/waist/belt_leather", "variant": "charcoal" },
+        { "def": "headwear/hats/caps/hat_cap_bonnie_tilt", "variant": "charcoal" }
+      ]
+    }
+  }
+}
