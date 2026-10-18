@@ -35,3 +35,171 @@ body {
   font-family: 'Galmuri11', sans-serif;
   -webkit-font-smoothing: none;
 }
+
+/* ── 단서 수첩 (DOM, 03 §2 O2) — 기준 640×360 좌표, #ui-root 가 정수 배율로 확대 ── */
+#ui-root {
+  image-rendering: pixelated;
+  transform-origin: 0 0;
+}
+.nb {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 608px;
+  height: 328px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: #f2e8cf;
+  color: #2a2335;
+  border: 1px solid #2a2335;
+  box-shadow: 2px 2px 0 rgba(14, 16, 36, 0.6);
+  pointer-events: auto;
+  font-family: 'Galmuri9', sans-serif;
+  font-size: 9px;
+  line-height: 12px;
+}
+.nb button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: 1px solid transparent;
+  padding: 0;
+}
+.nb-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #d9c9a3;
+}
+.nb-title {
+  font-family: 'Galmuri11Bold', sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+}
+.nb-tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+.nb-tab {
+  padding: 2px 8px !important;
+  border: 1px solid #d9c9a3 !important;
+}
+.nb-tab.on {
+  background: #2a2335 !important;
+  color: #f2e8cf !important;
+}
+.nb-close {
+  font-family: 'Galmuri7', sans-serif;
+  font-size: 7px;
+}
+.nb-band {
+  background: #c8323c;
+  color: #f4ecd8;
+  padding: 3px 8px;
+}
+.nb-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+.nb-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  grid-auto-rows: 56px;
+  gap: 6px;
+  padding: 8px;
+  overflow-y: auto;
+  align-content: start;
+}
+.nb-card {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  padding: 4px !important;
+  background: #fffaf0 !important;
+  border: 1px solid #d9c9a3 !important;
+}
+.nb-card.sel {
+  border-color: #e3b341 !important;
+  outline: 1px solid #e3b341;
+}
+.nb-card.pend {
+  background: #f6e3a8 !important;
+}
+.nb-card-kind {
+  font-family: 'Galmuri7', sans-serif;
+  font-size: 7px;
+  line-height: 10px;
+  color: #6b6788;
+}
+.nb-card-name {
+  overflow: hidden;
+  max-height: 36px;
+}
+.nb-new {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  background: #c8323c;
+  color: #fff;
+  font-family: 'Galmuri7', sans-serif;
+  font-size: 7px;
+  line-height: 10px;
+  padding: 0 2px;
+}
+.nb-empty {
+  grid-column: 1 / -1;
+  color: #6b6788;
+  margin: 24px 8px;
+}
+.nb-detail {
+  width: 240px;
+  box-sizing: border-box;
+  padding: 8px;
+  border-left: 1px solid #d9c9a3;
+  overflow-y: auto;
+}
+.nb-name {
+  margin: 0 0 6px;
+  font-family: 'Galmuri11Bold', sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: normal;
+}
+.nb-desc,
+.nb-src,
+.nb-dim,
+.nb-msg {
+  margin: 0 0 6px;
+}
+.nb-src,
+.nb-dim {
+  color: #6b6788;
+}
+.nb-msg {
+  color: #c8323c;
+}
+.nb-btn {
+  margin-top: 4px;
+  padding: 3px 8px !important;
+  background: #2a2335 !important;
+  color: #f2e8cf !important;
+}
+.nb-btn:hover {
+  outline: 1px solid #e3b341;
+}
+.nb-foot {
+  font-family: 'Galmuri7', sans-serif;
+  font-size: 7px;
+  line-height: 10px;
+  color: #6b6788;
+  padding: 3px 8px;
+  border-top: 1px solid #d9c9a3;
+}
